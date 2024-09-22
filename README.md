@@ -1,7 +1,7 @@
 # The Shelf
 
 <p align="center">
-  <img src="/img/shelf.webp" width="200">
+  <img src="/shelf.webp" width="200">
 
 
 Welcome to **The Shelf**, a collection of random scripts, exploits, configs, and tools that I’ve accumulated over the years. Some are handy, some are niche, and most of them were created in the heat of competitive hacking. It’s a mixed bag—stuff that’s too small to justify its own repository but too useful to leave forgotten in a folder.
