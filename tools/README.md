@@ -1,5 +1,27 @@
 # Tools
 
+## adminer.sh -Secure Neo4j Password Wrapper for AD-miner
+
+`adminer.sh` is a stupid wrapper. This script prompts for the password in a hidden input, runs AD-miner with the specified domain.
+
+## arpa.sh Quick Network Overview and Open Ports Scan
+
+This script is can quickly gather a list of connected devices on a host, mostly intesting because of Docker containers, and perform a fast scan for common open ports. The main goal is to curl this script into bash for an immediate overview of active hosts and their services.
+
+The script leverages tools like `ip`, `arp`, `nc`, and `awk` to identify available hosts and check for open ports on a predefined list of common service ports.
+
+#### Features:
+- **Network interface discovery**: Lists network interfaces and associated IP addresses.
+- **Connected hosts detection**: Uses ARP to list devices currently connected to the network.
+- **Port scanning**: Scans common service ports on discovered hosts, excluding local IPs, to quickly find open ports.
+- **Lightweight**: The script is designed to be quick and easy to use, requiring only basic command-line utilities.
+
+#### Usage:
+```bash
+curl -sSL <script_url> | bash
+```
+
+
 ## CertipyPermParse.py - Parse Certipy JSON Output for ACL Anomalies
 
 This tool parses Certipy JSON output to identify anomalies in Access Control Lists (ACLs), helping you hunt for potential targets in a Windows Active Directory environment. By analyzing certificate templates, permissions, and vulnerabilities, the tool filters out standard groups and highlights unusual access permissions that could indicate misconfigurations or attack vectors.
@@ -25,11 +47,6 @@ python3 certipy_parser.py <file_path> [--csv <output_file>] [--exclude <principa
 ```bash
 python3 certipy_parser.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
 ```
-
-## adminer.sh -Secure Neo4j Password Wrapper for AD-miner
-
-`adminer.sh` is a stupid wrapper. This script prompts for the password in a hidden input, runs AD-miner with the specified domain.
-
 
 ## dns-dump.py - Resolve Domains and Dump DNS Records
 
