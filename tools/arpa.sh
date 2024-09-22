@@ -25,7 +25,6 @@ echo -e "\n${GREEN}[+] Hosts available via ARP:${NC}"
 arp -n | awk '/ether/ {print $1 " (" $3 ")"}'
 
 ARP_HOSTS=$(arp -n | awk '/ether/ {print $1}')
-
 LOCAL_IPS=$(ip -o addr show | awk '/inet / {print $4}')
 echo -e "\n${GREEN}[+] Scanning for open ports on discovered hosts (excluding local IPs):${NC}"
 
@@ -37,6 +36,12 @@ scan_ports() {
         echo -e "${RED}[*] Open port found on $host: $port${NC}"
     fi
 }
+
+echo -e "${GREEN}[+] Scanning localhost for common open ports...${NC}"
+for port in "${PORTS[@]}"; do
+    scan_ports "localhost" $port &
+done
+wait
 
 for host in $ARP_HOSTS; do
     if ! echo "$LOCAL_IPS" | grep -q "$host"; then
