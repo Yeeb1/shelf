@@ -20,6 +20,27 @@ The script leverages tools like `ip`, `arp`, `nc`, and `awk` to identify availab
 ```bash
 curl -sSL <script_url> | bash
 ```
+## aws_enum.sh - Quick Overview of AWS Resources
+
+This script automates the process of fetching details about AWS resources using a specified AWS profile. It logs the output to a file and retrieves key information like EC2 instances, S3 buckets, VPCs, IAM users, and more. It’s useful for getting a quick overview of the AWS environment, especially during audits or troubleshooting.
+
+#### Features:
+- **AWS Profile Support**: Allows specifying an AWS profile to fetch details.
+- **Detailed Logging**: Logs all fetched data into a file for easy review.
+- **Resource fetching**: Retrieves information about key AWS resources such as:
+  - EC2 instances
+  - S3 buckets
+  - RDS instances
+  - VPCs
+  - Security groups
+  - IAM users and roles
+- **Error Handling**: Captures and logs errors during the data fetching process.
+
+#### Usage:
+```bash
+aws_enum.sh <aws-profile>
+```
+
 
 
 ## CertipyPermParse.py - Parse Certipy JSON Output for ACL Anomalies
