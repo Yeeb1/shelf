@@ -16,7 +16,7 @@ This is a modified exploit for **CVE-2024-30088**, designed to capture flags fro
 
 #### Usage:
 ```bash
-./flagssh.sh <username>@<hostname> [<password_or_ssh_key>]
+flagssh.sh <username>@<hostname> [<password_or_ssh_key>]
 ```
 
 ## grepper.sh - Targeted Search for Hidden Files in CTF Challenges
@@ -32,7 +32,7 @@ This is a modified exploit for **CVE-2024-30088**, designed to capture flags fro
 
 #### Usage:
 ```bash
-./grepper.sh [--all] [--path=dir1] [--path=dir2] ... [--verbose] [--auto] [--quick] [--gzip] [keyword1 [keyword2 ...]]
+grepper.sh [--all] [--path=dir1] [--path=dir2] ... [--verbose] [--auto] [--quick] [--gzip] [keyword1 [keyword2 ...]]
 ```
 
 - `--all`: Include binary files in the search.
@@ -50,7 +50,7 @@ This is a modified exploit for **CVE-2024-30088**, designed to capture flags fro
 
 #### Usage:
 ```bash
-python3 htb-usercontent.py <user_id> [--proxy] [--ignore-ssl] [--machines] [--challenges] [--writeups]
+htb-usercontent.py <user_id> [--proxy] [--ignore-ssl] [--machines] [--challenges] [--writeups]
 ```
 
 - `<user_id>`: The HTB user ID you want to query.
@@ -84,5 +84,5 @@ curl -sSL <script_url> | bash
 
 #### Usage:
 ```bash
-python3 quickpass.py <keywords> [--leet]
+quickpass.py <keywords> [--leet]
 ```
