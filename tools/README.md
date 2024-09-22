@@ -1,6 +1,6 @@
 # Tools
 
-### namegen.py
+## namegen.py
 
 This tool generates various username variants based on a list of input names. It is especially useful for creating permutations of usernames that can be used during penetration testing. The tool supports generating combinations for both single-word and multi-word names, producing multiple formats such as hyphenated, underscored, and concatenated usernames.
 
