@@ -39,7 +39,7 @@ FB
 ```
 
 
-### CertipyPermParse.py
+## CertipyPermParse.py
 
 This tool parses Certipy JSON output to identify anomalies in Access Control Lists (ACLs), helping you hunt for potential targets in a Windows Active Directory environment. By analyzing certificate templates, permissions, and vulnerabilities, the tool filters out standard groups and highlights unusual access permissions that could indicate misconfigurations or attack vectors.
 
