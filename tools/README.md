@@ -96,6 +96,7 @@ Its `dig` ok?
 ```bash
 ./hosts.py list              # List all entries
 ./hosts.py add <ip> <domain> # Add a new entry
+./hosts.py add <vhost>.<domain> # Add a vhost to an already existing entry
 ./hosts.py replace <new_ip> <domain> # Replace an existing entry's IP
 ./hosts.py rm                # Delete an entry or specific domain
 ```
