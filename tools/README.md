@@ -101,7 +101,7 @@ Its `dig` ok?
 ./hosts.py rm                # Delete an entry or specific domain
 ```
 
-## [image-converter.py](./image-converter.py) - Convert Images to Different File Types for File Upload Testing
+## [image_converter.py](./image_converter.py) - Convert Images to Different File Types for File Upload Testing
 
 `image-converter.py` is a small script that quickly converts an image into various file formats, making it ideal for testing file upload vulnerabilities. The script helps to generate multiple versions of an image to test for bypass file upload restrictions or filters.
 
