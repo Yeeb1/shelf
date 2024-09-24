@@ -80,7 +80,7 @@ python3 dns-dump.py <file> [--json] [--dump]
 
 ## [dns-query.py](./dns-query.py)
 
-Its dif ok?
+Its `dig` ok?
 
 ## [hosts.py](./hosts.py) - Manage /etc/hosts File Quickly and Efficiently
 
