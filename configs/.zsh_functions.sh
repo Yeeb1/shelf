@@ -1,62 +1,73 @@
 function customs() {
-    echo "Aliases defined:"
-    echo "Name"
-    echo "-----------------"
-    grep '^alias ' ~/.zshrc | awk -F'=' '{print $1}' | sed 's/alias //'
+    echo -e "\033[1;36mALIASES:\033[0m"
+    echo "-----------------------------"
+    grep '^alias ' ~/.zsh_alias.sh | sort | while read -r line; do
+        alias_name=$(echo "$line" | awk -F'=' '{print $1}' | sed 's/alias //')
+        description=$(echo "$line" | grep -o '#.*' | sed 's/# //')
+        if [ -z "$description" ]; then
+            description="No description available"
+        fi
+        echo -e "[+] \033[1;32m$alias_name\033[0m - $description"
+    done
+
     echo ''
-    echo "Functions defined:"
-    echo "Name"
-    echo "-----------------"
-    grep '^function ' ~/.zshrc | sed -n 's/function \(.*\)() {.*/\1/p'
-}
+    echo -e "\033[1;36mFUNCTIONS:\033[0m"
+    echo "-----------------------------"
+    grep '^function ' ~/.zsh_functions.sh | awk '{print $2}' | sed 's/()//' | sort | while read -r func_name; do
+        description=$(awk "/^function $func_name\(\)/,/^}/" ~/.zsh_functions.sh | grep -m 1 '# Description:' | sed 's/# Description: //' | sed 's/} //g')
+        
+        if [ -z "$description" ]; then
+            description="No description available"
+        fi
+        
+        echo -e "[+] \033[1;34m$func_name\033[0m - $description"
+    done
+} # Description: Print all user defined alias and functions
+
 mcd() {
    mkdir -p "$1" && cd "$1"
-}
+} # Description: Create and navigate to a directory
+
 function dockershellshhere() {
-    # Function to run docker shell in current directory with /bin/sh
     dirname=${PWD##*/}
     sudo docker run --rm -it --entrypoint=/bin/sh -v `pwd`:/${dirname} -w /${dirname} "$@"
-}
+} # Description: Run docker shell with /bin/sh in the current directory
 
 function dockershellhere() {
-    # Function to run docker shell in current directory with /bin/bash
     dirname=${PWD##*/}
     sudo docker run --rm -it --entrypoint=/bin/bash -v `pwd`:/${dirname} -w /${dirname} "$@"
-}
+} # Description: Run docker shell with /bin/bash in the current directory
+
 function ffuf_vhost() {
     if [ "$#" -ne 3 ]; then
         echo "[i] Usage: ffuf_vhost <http|https> <domain> <fs>"
         return 1
     fi
-
     protocol=$1
     domain=$2
     fs_value=$3
-
     if [ "$protocol" != "http" ] && [ "$protocol" != "https" ]; then
         echo "[i] Invalid protocol. Use 'http' or 'https'."
         return 1
     fi
-
     ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/dns-Jhaddix.txt -H "Host: FUZZ.$domain" -u $protocol://$domain -fs $fs_value
-}
+} # Description: FFUF for VHost fuzzing with the Jhaddix wordlist
+
 function ffuf_vhost_quick() {
     if [ "$#" -ne 3 ]; then
         echo "[i] Usage: ffuf_vhost_fast <http|https> <domain> <fs>"
         return 1
     fi
-
     protocol=$1
     domain=$2
     fs_value=$3
-
     if [ "$protocol" != "http" ] && [ "$protocol" != "https" ]; then
         echo "[i] Invalid protocol. Use 'http' or 'https'."
         return 1
     fi
-
     ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.$domain" -u $protocol://$domain -fs $fs_value
-}
+} # Description: Quick FFUF for VHost fuzzing with a smaller wordlist
+
 function rock_john() {
   if [ $# -eq 0 ]
     then
@@ -64,10 +75,12 @@ function rock_john() {
     else
       john "${@}" --wordlist=/usr/share/wordlists/rockyou.txt
   fi
-}
+} # Description: Run John the Ripper using the RockYou wordlist
+
 function ips() {
   ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "[\033[96m" iface"\033[0m] "a[1] }'
-}
+} # Description: Show global scope IP addresses for all interfaces
+
 function nmap_default() {
   if [ $# -eq 0 ]
     then
@@ -76,7 +89,8 @@ function nmap_default() {
       [ ! -d "./nmap" ] && echo "[i] Creating $(pwd)/nmap..." && mkdir nmap
       sudo nmap -sCV -T4 --min-rate 10000 "${@}" -v -oA nmap/tcp_default
   fi
-}
+} # Description: Run a default TCP Nmap scan and save results in ./nmap
+
 function nmap_udp() {
   if [ $# -eq 0 ]
     then
@@ -85,7 +99,8 @@ function nmap_udp() {
       [ ! -d "./nmap" ] && echo "[i] Creating $(pwd)/nmap..." && mkdir nmap
       sudo nmap -sUCV -T4 --min-rate 10000 "${@}" -v -oA nmap/udp_default
   fi
-}
+} # Description: Run a default UDP Nmap scan and save results in ./nmap
+
 function nmap_list() {
   if [ $# -eq 0 ]; then
     echo "[i] Usage: nmap_list input_file (options)"
@@ -95,7 +110,8 @@ function nmap_list() {
     [ ! -d "./nmap" ] && echo "[i] Creating $(pwd)/nmap..." && mkdir nmap
     sudo nmap -T4 -sV -p- -vv --min-rate 10000 -oA nmap/scan-tcp -iL "${input_file}" "${@}"
   fi
-}
+} # Description: Run a full Nmap scan on a list of IPs from a file
+
 function crawl() {
     if [[ -z "$1" ]]; then
         echo "[i] Usage: crawl <URL>"
@@ -103,10 +119,12 @@ function crawl() {
     fi
     echo "[i] Crawling subdomains for: $1"
     gospider -s $1 -d 5 -t 10 --include-subs -o files | awk '/^\[subdomains\]/ { print "\033[1;31m" $0 "\033[0m" } !/^\[subdomains\]/ { print }'
-}
+} # Description: Crawl subdomains for a given URL using gospider
+
 function export-krbcc() {
   export KRB5CCNAME=$(realpath "$1")
-}
+} # Description: Set the KRB5CCNAME environment variable to a Kerberos ticket file
+
 function rdp() {
     usage() {
         echo "[i] Usage: rdp -i '10.129.16.128' -u 'Administrator' -p 'P@s\$w0rd!' [-H 'NTLMHash']" >&2
@@ -138,7 +156,8 @@ function rdp() {
     done
 
     shift "$(($OPTIND -1))"
-}
+} # Description: Run RDP with credentials or NTLM hash
+
 function rdp_noauth() {
     if [ $# -eq 0 ]; then
         echo "[i] Usage: rdp_noauth <IP Address>"
@@ -148,7 +167,8 @@ function rdp_noauth() {
     local ip=$1
 
     xfreerdp /v:$ip /size:1920x1080 /tls-seclevel:0 -sec-nla
-}
+} # Description: Connect to RDP without authentication (for unauthenticated access)
+
 function ligolo-server() {
     if ! ip link show ligolo &>/dev/null; then
         sudo ip tuntap add user kali mode tun ligolo
@@ -156,7 +176,8 @@ function ligolo-server() {
     fi
 
     /opt/ligolo-ng/proxy -selfcert
-}
+} # Description: Set up the Ligolo tunneling server
+
 function datesync() {
   [ -z "$1" ] && echo "[i] Usage: datesync <URL>" && return 1
   echo "$(date)"
@@ -164,7 +185,8 @@ function datesync() {
   [ -z "$new_time" ] && return 1
   sudo date -s "$new_time"
   echo "$(date)"
-}
+} # Description: Sync the local date with the time from a remote server
+
 function ntlmsum() {
   if [ $# -eq 0 ]; then
     echo "[i] Usage: compute_ntlm_hash password"
@@ -173,7 +195,8 @@ function ntlmsum() {
     ntlm_hash=$(echo -n "$password" | iconv -t utf-16le | openssl dgst -md4 | awk '{print $2}')
     echo "NTLM Hash: $ntlm_hash"
   fi
-}
+} # Description: Compute the NTLM hash of a given password
+
 function bloodhound_import() {
   if [ -z "$BH_PW" ]; then
     echo "[!] Error: BH_PW environment variable is not set."
@@ -226,7 +249,8 @@ function bloodhound_import() {
 
     echo "[i] Successfully imported and synced BloodHound data from $file"
   done
-}
+} # Description: Import BloodHound data using knowsmore and sync it with the BloodHound database
+
 function responder_dump() {
   local default_log_dir="/usr/share/responder/logs"
 
@@ -263,7 +287,8 @@ function responder_dump() {
     echo "[!] Error: Failed to extract hashes"
     return 1
   fi
-}
+} # Description: Extract NTLM hashes from Responder logs and save them to a file
+
 function crt.sh() {
   if [ $# -ne 1 ]; then
     echo "Usage: crt.sh <domain>"
@@ -277,4 +302,4 @@ function crt.sh() {
   sed 's/\*.//g' | \
   awk '{gsub(/\\n/,"\n")}1' | \
   sort -u
-}
+} # Description: Query crt.sh for certificates and list unique subdomains for a given domain
