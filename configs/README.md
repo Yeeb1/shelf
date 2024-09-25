@@ -1,4 +1,9 @@
 # Configs
+
+## [.tmux.conf.local](./.tmux.conf.local) - Custom Configuration for tmux Sessions
+
+The `.tmux.conf.local` is left pretty default with minor tweaks on the appearance.
+
 ## [.zsh_alias](./.zsh_alias.sh) - Handy Shortcuts for Faster Terminal Commands
 
 `.zsh_alias` contains a collection of useful aliases to streamline common terminal tasks and commands, helping me operate more efficiently. 
@@ -10,7 +15,7 @@
 
 ## [.zshrc](./.zshrc) - Main Configuration File for Zsh Environment
 
-Its left pretty default.
+The `.zshrc` is left pretty default with minor tweaks to ensure a smooth workflow. 
 
 ## [customs Function](https://github.com/Yeeb1/shelf/blob/ebf6a7a7120cd97a49036cb7013ff817892ad6a0/configs/.zsh_functions.sh#L1) - List All Custom Aliases and Functions with Descriptions
 
