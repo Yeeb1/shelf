@@ -66,8 +66,26 @@ htb-usercontent.py <user_id> [--proxy] [--ignore-ssl] [--machines] [--challenges
 
 #### Features:
 - **Keyword-based password search**: Searches for passwords in `rockyou.txt` that match specific keywords, which can be related to the box name or service.
-- **Leet-speak support**: Optionally convert the keyword into leet-speak (e.g., `h4ck3r`) and search for its variations.
+- **Leet-speak support**: Optionally convert the keyword into leet-speak and search for its variations.
 - **Write results to file**: Saves matching passwords into `quickwins.txt` for easy access.
+
+## [prefixsuffix.py](./prefixsuffix.py) - Generate Quick Custom Wordlists for CTF Challenges
+
+`prefixsuffix.py` is a fast and customizable wordlist generator designed specifically for CTF challenges. It allows you to create targeted wordlists by combining predefined or custom prefixes and suffixes, making it ideal for situations where traditional wordlists like `rockyou.txt` take too long to process, especially against hashing algorithms or slow brute-force attacks.
+
+
+#### Usage:
+```bash
+python3 prefixsuffix.py [--all] [--leet] [--prefix <prefix1> <prefix2>] [--suffix <suffix1> <suffix2>] [-cp]
+```
+
+- `--all`: Include lowercase versions of the predefined and additional prefixes.
+- `--leet`: Apply Leet speak transformations to both prefixes and suffixes.
+- `--prefix`: Add custom prefixes to the wordlist.
+- `--suffix`: Add custom suffixes to the wordlist.
+- `-cp` or `--custom-prefixes`: Use only the custom prefixes supplied and ignore the predefined ones.
+- `--output`: Save the generated wordlist to a file (default: `prefixsuffix.txt`).
+
 
 #### Usage:
 ```bash
