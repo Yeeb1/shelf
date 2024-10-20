@@ -303,3 +303,30 @@ function crt.sh() {
   awk '{gsub(/\\n/,"\n")}1' | \
   sort -u
 } # Description: Query crt.sh for certificates and list unique subdomains for a given domain
+
+function sshportfwd() {
+    echo -e "\033[1;36mSSH Port Forwarding Information\033[0m"
+    echo "----------------------------------"
+    
+    echo -e "\033[1;32mLocal Port Forwarding (L to R):\033[0m"
+    echo -e "Usage: ssh -L <local_port>:<remote_host>:<remote_port> <user>@<remote_host>"
+    echo "[+] Example: ssh -L 8080:localhost:80 user@remote_host"
+    echo "[+] Explanation: This forwards connections from local port 8080 to port 80 on the remote host."
+    echo ""
+
+    echo -e "\033[1;34mRemote Port Forwarding (R to L):\033[0m"
+    echo -e "Usage: ssh -R <remote_port>:<local_host>:<local_port> <user>@<remote_host>"
+    echo "[+] Example: ssh -R 8080:localhost:80 user@remote_host"
+    echo "[+] Explanation: This forwards connections from port 8080 on the remote machine to port 80 on your local machine."
+    echo ""
+
+    echo -e "\033[1;35mDynamic Port Forwarding (SOCKS Proxy):\033[0m"
+    echo -e "Usage: ssh -D <local_port> <user>@<remote_host>"
+    echo "[+] Example: ssh -D 1080 user@remote_host"
+    echo "[+] Explanation: This sets up a SOCKS proxy on your local machine to route traffic through the SSH connection."
+
+    echo -e "\n\033[1;36mNotes:\033[0m"
+    echo "[i] Local Forwarding (-L) forwards traffic from local machine to remote machine."
+    echo "[i] Remote Forwarding (-R) forwards traffic from remote machine to local machine."
+    echo "[i] Dynamic Forwarding (-D) creates a SOCKS proxy for versatile forwarding."
+} # Description: Print information about SSH port forwarding (local, remote, and dynamic)
