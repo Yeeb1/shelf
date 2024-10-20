@@ -6,20 +6,32 @@
 
 ## [arpa.sh](./arpa.sh) - Quick Network Overview and Open Ports Scan
 
-This script is can quickly gather a list of connected devices on a host, mostly intesting because of Docker containers, and perform a fast scan for common open ports. The main goal is to curl this script into bash for an immediate overview of active hosts and their services.
+This script can quickly gather a list of connected devices on a host and perform a fast scan for common open ports. It is especially useful in environments with Docker containers or virtualized networks where host discovery is important. The main goal is to curl this script into bash for an immediate overview of active hosts and their services.
 
-The script leverages tools like `ip`, `arp`, `nc`, and `awk` to identify available hosts and check for open ports on a predefined list of common service ports.
+The script leverages tools like `ip`, `arp`, `nc`, `telnet`, and `awk` to identify available hosts and check for open ports on a predefined list of common service ports.
 
 #### Features:
-- **Network interface discovery**: Lists network interfaces and associated IP addresses.
-- **Connected hosts detection**: Uses ARP to list devices currently connected to the network.
-- **Port scanning**: Scans common service ports on discovered hosts, excluding local IPs, to quickly find open ports.
-- **Lightweight**: The script is designed to be quick and easy to use, requiring only basic command-line utilities.
+- **Network Interface Discovery**: Lists all network interfaces and their associated IP addresses.
+- **Connected Hosts Detection via ARP**: Uses ARP to detect devices currently connected to the local network and scans for open ports on discovered hosts.
+- **CIDR Range Support**: Scans multiple IP addresses within a specified CIDR range (e.g., `192.168.1.0/24`), automatically expanding the range and checking each host for common open ports.
+- **Single IP Scanning**: If a specific IP is provided, the script will scan that IP for open ports instead of scanning the network.
+- **Port Scanning**: Scans common service ports on either a discovered host or a provided IP, using `nc` (Netcat) by default, with fallbacks to `telnet` or `/dev/tcp`.
+- **Fallbacks**: If `nc` is unavailable, it falls back to `telnet` or `/dev/tcp` to ensure port scanning works on most systems.
 
 #### Usage:
+- **Scan the Local Network**: When no arguments are passed, the script performs ARP-based discovery of connected hosts and scans them for open ports.
+- **Scan a Specific IP**: Provide a single IP as an argument to scan that host for common open ports.
+- **Scan a CIDR Range**: Provide a CIDR range (e.g., `192.168.1.0/24`) to scan multiple IPs within the range.
+
+#### Example:
 ```bash
-curl -sSL <script_url> | bash
+curl -s http://<script_url>.com/arpa.sh | bash
+# Scan a specific IP
+bash arpa.sh 192.168.1.10
+# Scan a CIDR range
+bash arpa.sh 192.168.1.0/24
 ```
+
 ## [aws_enum.sh](./aws_enum.sh) - Quick Overview of AWS Resources
 
 This script automates the process of fetching details about AWS resources using a specified AWS profile. It logs the output to a file and retrieves key information like EC2 instances, S3 buckets, VPCs, IAM users, and more. It’s useful for getting a quick overview of the AWS environment, especially during audits or troubleshooting.
