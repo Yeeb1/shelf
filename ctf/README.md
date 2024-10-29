@@ -108,7 +108,7 @@ quickpass.py <keywords> [--leet]
 ### Usage:
 To execute the script, run it in an elevated PowerShell prompt:
 ```powershell
-Invoke-Expression (Invoke-WebRequest -Uri <script_url>).Content
+Invoke-Expression (Invoke-WebRequest <script_url>)
 ```
 
 ## [ssh-backdoor.sh](./ssh-backdoor.sh) - Quick and Easy SSH Persistence
