@@ -3,12 +3,13 @@
 # Description: Sync the local date with the time from a remote host via NTP, rdate, or HTTP(S).
 # If "reset" is passed as the hostname, reset the time to the system's timezone and re-enable NTP synchronization.
 
-# Function to check and manage NTP synchronization
+# Function to disable NTP synchronization
 disable_ntp_sync() {
     echo "[+] Disabling NTP synchronization..."
     sudo timedatectl set-ntp false
 }
 
+# Function to enable NTP synchronization
 enable_ntp_sync() {
     echo "[+] Enabling NTP synchronization..."
     sudo timedatectl set-ntp true
@@ -56,40 +57,59 @@ disable_ntp_sync
 if command -v ntpdate >/dev/null 2>&1; then
     echo "[+] NTP is available. Syncing time using ntpdate..."
     sudo ntpdate "$HOST"
-    echo "[+] Updated system time: $(date)"
-elif command -v rdate >/dev/null 2>&1; then
-    echo "[+] rdate is available. Syncing time using rdate..."
-    sudo rdate -s "$HOST"
-    echo "[+] Updated system time: $(date)"
-else
-    echo "[+] ntpdate and rdate not found. Checking for HTTP(S) service..."
-
-    # Check if HTTP or HTTPS is available
-    if nc -z "$HOST" 80 >/dev/null 2>&1; then
-        PROTOCOL="http"
-    elif nc -z "$HOST" 443 >/dev/null 2>&1; then
-        PROTOCOL="https"
+    if [ $? -eq 0 ]; then
+        echo "[+] Updated system time: $(date)"
+        echo "[+] NTP synchronization remains disabled."
+        exit 0
     else
-        echo "[+] No NTP, rdate, or HTTP(S) service available on $HOST."
-        exit 1
+        echo "[+] ntpdate failed to sync time."
     fi
-
-    # Get date from HTTP headers
-    echo "[+] Fetching date from $PROTOCOL://$HOST..."
-    new_time=$(curl -sI "$PROTOCOL://$HOST" | grep -i '^Date:' | cut -d' ' -f2-)
-
-    if [ -z "$new_time" ]; then
-        echo "[+] Failed to retrieve date from $PROTOCOL://$HOST."
-        exit 1
-    fi
-
-    echo "[+] Retrieved date: $new_time"
-    echo "[+] Setting system time..."
-    sudo timedatectl set-time "$new_time"
-    echo "[+] Updated system time: $(date)"
+else
+    echo "[+] ntpdate not found."
 fi
 
-# Do not re-enable NTP synchronization when an IP or hostname is passed
+# Try to sync via rdate
+if command -v rdate >/dev/null 2>&1; then
+    echo "[+] rdate is available. Syncing time using rdate..."
+    sudo rdate -s "$HOST"
+    if [ $? -eq 0 ]; then
+        echo "[+] Updated system time: $(date)"
+        echo "[+] NTP synchronization remains disabled."
+        exit 0
+    else
+        echo "[+] rdate failed to sync time."
+    fi
+else
+    echo "[+] rdate not found."
+fi
+
+# If NTP and rdate fail, try to get date from HTTP(S) headers
+echo "[+] ntpdate and rdate not successful or not found. Checking for HTTP(S) service..."
+
+# Check if HTTP or HTTPS is available
+if nc -z "$HOST" 80 >/dev/null 2>&1; then
+    PROTOCOL="http"
+elif nc -z "$HOST" 443 >/dev/null 2>&1; then
+    PROTOCOL="https"
+else
+    echo "[+] No NTP, rdate, or HTTP(S) service available on $HOST."
+    exit 1
+fi
+
+# Get date from HTTP headers
+echo "[+] Fetching date from $PROTOCOL://$HOST..."
+new_time=$(curl -sI "$PROTOCOL://$HOST" | grep -i '^Date:' | cut -d' ' -f2-)
+
+if [ -z "$new_time" ]; then
+    echo "[+] Failed to retrieve date from $PROTOCOL://$HOST."
+    exit 1
+fi
+
+echo "[+] Retrieved date: $new_time"
+echo "[+] Setting system time..."
+# Use timedatectl to set the time
+sudo timedatectl set-time "$new_time"
+echo "[+] Updated system time: $(date)"
 echo "[+] NTP synchronization remains disabled."
 
 exit 0
