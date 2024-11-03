@@ -1,5 +1,31 @@
 # Tools
 
+## [CertipyPermParse.py](./CertipyPermParse.py) - Parse Certipy JSON Output for ACL Anomalies
+
+This tool parses Certipy JSON output to identify anomalies in Access Control Lists (ACLs), helping you hunt for potential targets in a Windows Active Directory environment. By analyzing certificate templates, permissions, and vulnerabilities, the tool filters out standard groups and highlights unusual access permissions that could indicate misconfigurations or attack vectors.
+
+#### Features:
+- Parses JSON output from Certipy to identify anomalies in ACLs.
+- Filters out known administrative groups such as "Domain Admins" and "Enterprise Admins" to focus on unusual principals.
+- Detects potential certificate vulnerabilities and permissions issues, such as unauthorized write access.
+- Supports exporting results to CSV for easy analysis.
+- Option to check only active certificates.
+- Allows for additional exclusions of specific principals.
+
+#### Usage:
+```bash
+python3 CertipyPermParse.py <file_path> [--csv <output_file>] [--exclude <principal1> <principal2>] [--active-only]
+```
+
+- `<file_path>`: Path to the Certipy JSON output file.
+- `--csv`: (Optional) Path to save the parsed results as a CSV file.
+- `--exclude`: (Optional) Additional principals to exclude from the results.
+- `--active-only`: (Optional) Check only active certificate templates.
+
+```bash
+python3 CertipyPermParse.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
+```
+
 ## [adminer.sh](./adminer.sh) - Secure Neo4j Password Wrapper for AD-miner
 
 `adminer.sh` is a stupid wrapper. This script prompts for the password in a hidden input, runs AD-miner with the specified domain.
@@ -53,33 +79,44 @@ This script automates the process of fetching details about AWS resources using 
 aws_enum.sh <aws-profile>
 ```
 
+## [clockskewer.sh](./clockskewer.sh) - Synchronize System Time with a Remote Host
 
-
-## [CertipyPermParse.py](./CertipyPermParse.py) - Parse Certipy JSON Output for ACL Anomalies
-
-This tool parses Certipy JSON output to identify anomalies in Access Control Lists (ACLs), helping you hunt for potential targets in a Windows Active Directory environment. By analyzing certificate templates, permissions, and vulnerabilities, the tool filters out standard groups and highlights unusual access permissions that could indicate misconfigurations or attack vectors.
-
-#### Features:
-- Parses JSON output from Certipy to identify anomalies in ACLs.
-- Filters out known administrative groups such as "Domain Admins" and "Enterprise Admins" to focus on unusual principals.
-- Detects potential certificate vulnerabilities and permissions issues, such as unauthorized write access.
-- Supports exporting results to CSV for easy analysis.
-- Option to check only active certificates.
-- Allows for additional exclusions of specific principals.
+`clockskewer.sh` is a Bash script designed to synchronize your system's time with that of a remote host or reset it to your system's timezone. It supports synchronization via NTP, `rdate`, or HTTP(S), and manages NTP synchronization services to prevent conflicts.
 
 #### Usage:
-```bash
-python3 certipy_parser.py <file_path> [--csv <output_file>] [--exclude <principal1> <principal2>] [--active-only]
-```
-
-- `<file_path>`: Path to the Certipy JSON output file.
-- `--csv`: (Optional) Path to save the parsed results as a CSV file.
-- `--exclude`: (Optional) Additional principals to exclude from the results.
-- `--active-only`: (Optional) Check only active certificate templates.
 
 ```bash
-python3 certipy_parser.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
+sudo bash clockskewer.sh <hostname_or_ip|reset>
 ```
+
+- **Synchronize time with a remote host:**
+
+  ```bash
+  sudo bash clockskewer.sh example.com
+  ```
+
+- **Reset time to your system's timezone and re-enable NTP synchronization:**
+
+  ```bash
+  sudo bash clockskewer.sh reset
+  ```
+
+#### Features:
+
+- **Time Synchronization Methods:**
+  - **NTP (`ntpdate`):** Syncs time using NTP protocol if `ntpdate` is available.
+  - **`rdate`:** Uses `rdate` if `ntpdate` is not available.
+  - **HTTP(S):** Retrieves date from HTTP headers if neither `ntpdate` nor `rdate` is available.
+  
+- **NTP Synchronization Management:**
+  - Disables NTP synchronization before setting the time to prevent it from overwriting changes.
+  - Does not re-enable NTP synchronization when syncing with a remote host (unless `reset` is used).
+  
+- **Reset Functionality:**
+  - Resets the system time to match your system's timezone.
+  - Re-enables NTP synchronization to keep your system time accurate.
+
+
 
 ## [dns-dump.py](./dns-dump.py) - Resolve Domains and Dump DNS Records
 
