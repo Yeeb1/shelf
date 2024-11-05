@@ -43,6 +43,7 @@ ALIASES:
 [+] machines - Navigate to the HTB machines directory
 [+] mkctf - Creates commonly used directories for CTFs
 [+] mkserve - Alias to reset and relink the 'serve' folder
+[+] noir - Runs a OWASP Noir in CWD
 [+] ntlm.pw - Fetches NTLM hashes from ntlm.pw for a given value
 [+] peas - Downloads linpeas.sh
 [+] prolabsvpn - Start the pro labs VPN
