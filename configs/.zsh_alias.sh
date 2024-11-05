@@ -16,6 +16,7 @@ alias bat="batcat" # Alias to use batcat instead of cat
 alias peas='wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh -O p' # Downloads linpeas.sh
 alias mkctf='mkdir files serve loot tools' # Creates commonly used directories for CTFs
 alias mkserve='rm -rf s && ln -s /opt/arsenal/serve s' # Alias to reset and relink the 'serve' folder
+alias noir='sudo docker run -it --rm -v "$(pwd):/workspace" --entrypoint "" ghcr.io/owasp-noir/noir:latest noir -b /workspace' # Runs a OWASP Noir in CWD
 ########### General CTF Aliases #############
 
 ########### Vulnlab Aliases #############
