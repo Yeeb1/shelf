@@ -17,7 +17,12 @@ alias peas='wget https://github.com/carlospolop/PEASS-ng/releases/latest/downloa
 alias mkctf='mkdir files serve loot tools' # Creates commonly used directories for CTFs
 alias mkserve='rm -rf s && ln -s /opt/arsenal/serve s' # Alias to reset and relink the 'serve' folder
 alias noir='sudo docker run -it --rm -v "$(pwd):/workspace" --entrypoint "" ghcr.io/owasp-noir/noir:latest noir -b /workspace' # Runs a OWASP Noir in CWD
+alias dl='dclog.py' # Alias for faster internaction with Discord webhook bot 
+alias dm='dcmanage.py' # Alias to manage Webhooks and Threads for Discord bot
+alias ds='dcsend.py' # Alias to send a file via Discord bot
+alias dc='dcclip.py' # Alias to send the clipboard via Discord bot
 ########### General CTF Aliases #############
+
 
 ########### Vulnlab Aliases #############
 alias vuln="cd /home/kali/ctf/vulnlab" # Navigate to Vulnlab directory
