@@ -22,11 +22,11 @@
 .PARAMETER OutputColor
     The output color for messages (default: "White").
 
-.PARAMETER StoreTokens
+.PARAMETER PassTokens
     A switch to indicate whether to store the tokens in the `$tokens` variable.
 
 .EXAMPLE
-    .\TokenToWonderland.ps1 -domain "contoso.com" -refreshToken "your_refresh_token" -clientId "27922004-5251-4030-b22d-91ecd9a37ea4" -StoreTokens
+    .\TokenToWonderland.ps1 -domain "contoso.com" -refreshToken "your_refresh_token" -clientId "27922004-5251-4030-b22d-91ecd9a37ea4" -PassTokens
 #>
 
 param (
@@ -46,7 +46,7 @@ param (
     [ValidateSet('Yellow', 'Red', 'DarkGreen', 'DarkRed')]
     [string]$OutputColor = "White",
 
-    [switch]$StoreTokens
+    [switch]$PassTokens
 )
 
 function Invoke-TokenToWonderland {
@@ -56,7 +56,7 @@ function Invoke-TokenToWonderland {
         [string]$ClientID,
         [string]$Resource,
         [string]$OutputColor,
-        [switch]$StoreTokens
+        [switch]$PassTokens
     )
 
     $TenantId = Get-TenantID -domain $Domain
@@ -81,7 +81,7 @@ function Invoke-TokenToWonderland {
             Write-Host -ForegroundColor $OutputColor "Scope: $($TokenResponse.scope)"
             Write-Host -ForegroundColor $OutputColor "Expires In: $($TokenResponse.expires_in) seconds"
 
-            if ($StoreTokens) {
+            if ($PassTokens) {
                 $global:tokens = [pscustomobject]@{
                     token_type     = $TokenResponse.token_type
                     scope          = $TokenResponse.scope
@@ -106,4 +106,4 @@ function Invoke-TokenToWonderland {
     }
 }
 
-Invoke-TokenToWonderland -Domain $domain -RefreshToken $refreshToken -ClientID $clientId -Resource $resource -OutputColor $OutputColor -StoreTokens:$StoreTokens
+Invoke-TokenToWonderland -Domain $domain -RefreshToken $refreshToken -ClientID $clientId -Resource $resource -OutputColor $OutputColor -PassTokens:$PassTokens
