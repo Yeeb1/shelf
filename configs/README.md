@@ -68,6 +68,7 @@ FUNCTIONS:
 [+] export-krbcc - Set the KRB5CCNAME environment variable to a Kerberos ticket file
 [+] ffuf_vhost - FFUF for VHost fuzzing with the Jhaddix wordlist
 [+] ffuf_vhost_quick - Quick FFUF for VHost fuzzing with a smaller wordlist
+[+] genhosts - Generate and append to /etc/hosts using netexec for a given IP address and print updated file
 [+] ips - Show global scope IP addresses for all interfaces
 [+] ligolo-server - Set up the Ligolo tunneling server
 [+] nmap_default - Run a default TCP Nmap scan and save results in ./nmap
