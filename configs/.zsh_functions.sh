@@ -330,3 +330,34 @@ function sshportfwd() {
     echo "[i] Remote Forwarding (-R) forwards traffic from remote machine to local machine."
     echo "[i] Dynamic Forwarding (-D) creates a SOCKS proxy for versatile forwarding."
 } # Description: Print information about SSH port forwarding (local, remote, and dynamic)
+function genhosts() {
+    if [[ -z "$1" ]]; then
+        echo "[i] Usage: update_hosts <IP_ADDRESS>"
+        return 1
+    fi
+
+    local ip_address="$1"
+    local tmp_file=$(mktemp /tmp/maketmp.XXXXXX)
+
+    echo "[i] Generating hosts file for: $ip_address"
+    netexec smb "$ip_address" --generate-hosts-file "$tmp_file"
+
+    if [[ $? -ne 0 ]]; then
+        echo "[!] Failed to generate hosts file. Check netexec command."
+        rm -f "$tmp_file"
+        return 1
+    fi
+
+    echo "[i] Appending generated hosts file to /etc/hosts"
+    sudo tee -a /etc/hosts < "$tmp_file" > /dev/null
+
+    if [[ $? -eq 0 ]]; then
+        echo "[✓] /etc/hosts successfully updated. Here is the new content:"
+        cat /etc/hosts
+    else
+        echo "[!] Failed to update /etc/hosts. Check permissions or sudo setup."
+    fi
+
+    # Cleanup
+    rm -f "$tmp_file"
+} # Description: Generate and append to /etc/hosts using netexec for a given IP address and print updated file
