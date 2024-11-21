@@ -358,6 +358,5 @@ function genhosts() {
         echo "[!] Failed to update /etc/hosts. Check permissions or sudo setup."
     fi
 
-    # Cleanup
     rm -f "$tmp_file"
 } # Description: Generate and append to /etc/hosts using netexec for a given IP address and print new entries
