@@ -332,7 +332,7 @@ function sshportfwd() {
 } # Description: Print information about SSH port forwarding (local, remote, and dynamic)
 function genhosts() {
     if [[ -z "$1" ]]; then
-        echo "[i] Usage: update_hosts <IP_ADDRESS>"
+        echo "[i] Usage: genhosts <IP_ADDRESS>"
         return 1
     fi
 
@@ -352,12 +352,12 @@ function genhosts() {
     sudo tee -a /etc/hosts < "$tmp_file" > /dev/null
 
     if [[ $? -eq 0 ]]; then
-        echo "[✓] /etc/hosts successfully updated. Here is the new content:"
-        cat /etc/hosts
+        echo "[✓] /etc/hosts successfully updated. New entries:"
+        cat "$tmp_file"
     else
         echo "[!] Failed to update /etc/hosts. Check permissions or sudo setup."
     fi
 
     # Cleanup
     rm -f "$tmp_file"
-} # Description: Generate and append to /etc/hosts using netexec for a given IP address and print updated file
+} # Description: Generate and append to /etc/hosts using netexec for a given IP address and print new entries
