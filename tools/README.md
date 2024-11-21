@@ -25,6 +25,26 @@ python3 CertipyPermParse.py <file_path> [--csv <output_file>] [--exclude <princi
 ```bash
 python3 CertipyPermParse.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
 ```
+## [TokenToWonderland.ps1](./TokenToWonderland.ps1) - Generate Access Tokens for Microsoft Graph API by specifiying ClientIDs
+
+This script uses a refresh token and client ID to request new access tokens with new scopes based on the clientID for the Microsoft Graph API.
+
+#### Usage:
+```powershell
+.\TokenToWonderland.ps1 -domain <tenant_domain> -refreshToken <refresh_token> -clientId <client_id> [-resource <resource_url>] [-PassTokens] [-OutputColor <color>]
+```
+
+- `<tenant_domain>`: Domain of the Azure AD tenant (e.g., contoso.com).
+- `<refresh_token>`: Refresh token to authenticate and request new tokens.
+- `<client_id>`: Client ID of the application for the desired permissions.
+- `<resource_url>`: (Optional) Target resource (default: `https://graph.microsoft.com/`).
+- `-PassTokens`: (Optional) Save tokens to the `$tokens` variable for future use.
+- `-OutputColor`: (Optional) Customize output text color (e.g., `Red`, `Yellow`).
+
+#### Example:
+```powershell
+.\TokenToWonderland.ps1 -domain "contoso.com" -refreshToken "your_refresh_token" -clientId "27922004-5251-4030-b22d-91ecd9a37ea4" -PassTokens
+```
 
 ## [adminer.sh](./adminer.sh) - Secure Neo4j Password Wrapper for AD-miner
 
