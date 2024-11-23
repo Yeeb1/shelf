@@ -188,6 +188,61 @@ python3 image-converter.py <image_file> <output_directory>
 python3 ipconv.py <ip_address>
 ```
 
+## [mssql_ridbrute.py](./mssql_ridbrute.py) - Enumerate Active Directory Accounts via MSSQL RID Brute-Forcing
+
+This tool connects to a Microsoft SQL Server and performs RID (Relative Identifier) brute-forcing to enumerate Active Directory user and group accounts. It leverages special SQL queries to retrieve account information by manipulating SIDs (Security Identifiers), which is particularly useful when you have local access to a database but lack domain user privileges. By exploiting functions like `SUSER_SNAME` and `SUSER_SID`, the script can uncover valid account names associated with specific RIDs in the domain.
+
+This script constructs SIDs by combining the domain SID with incremental RIDs and uses the `SUSER_SNAME` function to resolve them into account names. This method allows for the discovery of user and group accounts in the domain, which can be helpful in limited during offensive assessments, especially when other enumeration methods are restricted.
+
+#### **Usage:**
+
+```bash
+┌──(kalikali)-[~/mssql_ridbrute]
+└─$ python3 mssql_idbrute.py -h
+usage: ridbrute.py [-h] --server SERVER --username USERNAME --password PASSWORD [--database DATABASE] [--port PORT] [--start START] [--end END] [--delay DELAY] [--output OUTPUT] [--output-format {text,csv,json}]
+
+MSSQL RID brute-force script
+
+options:
+  -h, --help            show this help message and exit
+  --server SERVER, -s SERVER
+                        MSSQL server address
+  --username USERNAME, -u USERNAME
+                        MSSQL username
+  --password PASSWORD, -p PASSWORD
+                        MSSQL password
+  --database DATABASE, -d DATABASE
+                        Database to connect to (default: master)
+  --port PORT, -P PORT  MSSQL server port (default: 1433)
+  --start START         Start of RID range (default: 500)
+  --end END             End of RID range (default: 2000)
+  --delay DELAY         Delay between requests in seconds (default: 0)
+  --output OUTPUT, -o OUTPUT
+                        Output file path
+  --output-format {text,csv,json}
+                        Output format (default: text)
+```
+
+#### **Misc:**
+
+- **RID Range:**
+
+  - Common RID values:
+    - `500`: Administrator
+    - `501`: Guest
+    - `512`: Domain Admins group
+    - `513`: Domain Users group
+    - RIDs for user accounts typically start from `1000` upwards.
+  - Adjust the `--start` and `--end` values based on your enumeration needs.
+
+- **SQL Functions Used:**
+
+  - `SUSER_SID('domain\account')`: Returns the SID for the specified account.
+  - `SUSER_SNAME(sid)`: Returns the account name associated with the specified SID.
+
+
+
+
 ## [namegen.py](./namegen.py) - Generate Variants of Usernames for Enumeration
 
 This tool generates various username variants based on a list of input names. It is especially useful for creating permutations of usernames that can be used during penetration testing. The tool supports generating combinations for both single-word and multi-word names, producing multiple formats such as hyphenated, underscored, and concatenated usernames.
