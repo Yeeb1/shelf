@@ -22,14 +22,21 @@ The `.zshrc` is left pretty default with minor tweaks to ensure a smooth workflo
 The `customs` function is designed to display all the custom aliases and functions defined in the zsh configuration. It reads from the `.zsh_alias.sh` and `.zsh_functions.sh` files, and outputs the name and a brief description of each alias or function, making it easier to remember and manage these shortcuts.
 
 ```
-ALIASES:
------------------------------
-[+] bat - Alias to use batcat instead of cat
-[+] chains - Navigate to Vulnlab chains directory
+ALIASES:                                                                     
+-----------------------------                                                                                                                              
+[+] bat - Alias to use batcat instead of cat                                                                                                               
+[+] burl - curl trough burp                                                  
+[+] chains - Navigate to Vulnlab chains directory                                                                                                          
 [+] challenges - Navigate to the HTB challenges directory
 [+] ctf - Navigate to the root CTF directory
+[+] dcclip - Alias to send the clipboard via Discord bot
+[+] dclog - Alias for faster internaction with Discord webhook bot
+[+] dcclip - Alias to send the clipboard via Discord bot
+[+] dclog - Alias for faster internaction with Discord webhook bot
+[+] dm - Alias to manage Webhooks and Threads for Discord bot
 [+] dockershellsh - Runs a Docker container with a sh shell
 [+] dockershell - Runs a Docker container with a bash shell
+[+] dsend - Alias to send a file via Discord bot
 [+] endvpn - Start the endgames VPN
 [+] f - search files and directories from the current directory
 [+] fort - Navigate to the HTB fortress directory
@@ -56,6 +63,8 @@ ALIASES:
 [+] vuln - Navigate to Vulnlab directory
 [+] xc - Alias for copying to the clipboard
 
+[+] xc - Alias for copying to the clipboard
+
 FUNCTIONS:
 -----------------------------
 [+] bloodhound_import - Import BloodHound data using knowsmore and sync it with the BloodHound database
@@ -68,16 +77,17 @@ FUNCTIONS:
 [+] export-krbcc - Set the KRB5CCNAME environment variable to a Kerberos ticket file
 [+] ffuf_vhost - FFUF for VHost fuzzing with the Jhaddix wordlist
 [+] ffuf_vhost_quick - Quick FFUF for VHost fuzzing with a smaller wordlist
-[+] genhosts - Generate and append to /etc/hosts using netexec for a given IP address and print updated file
+[+] genhosts - Generate and append to /etc/hosts using netexec for a given IP address and print new entries
 [+] ips - Show global scope IP addresses for all interfaces
 [+] ligolo-server - Set up the Ligolo tunneling server
 [+] nmap_default - Run a default TCP Nmap scan and save results in ./nmap
 [+] nmap_list - Run a full Nmap scan on a list of IPs from a file
 [+] nmap_udp - Run a default UDP Nmap scan and save results in ./nmap
 [+] ntlmsum - Compute the NTLM hash of a given password
+[+] phpcmd - Drops a php webshell in the current directory
 [+] rdp - Run RDP with credentials or NTLM hash
 [+] rdp_noauth - Connect to RDP without authentication (for unauthenticated access)
 [+] responder_dump - Extract NTLM hashes from Responder logs and save them to a file
 [+] rock_john - Run John the Ripper using the RockYou wordlist
-[+] sshportfwd - Print information about SSH port forwarding (local, remote, and dynamic)                                                                         
+[+] sshportfwd - Print information about SSH port forwarding (local, remote, and dynamic)                                                                   
 ```
