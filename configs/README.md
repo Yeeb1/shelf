@@ -22,6 +22,8 @@ The `.zshrc` is left pretty default with minor tweaks to ensure a smooth workflo
 The `customs` function is designed to display all the custom aliases and functions defined in the zsh configuration. It reads from the `.zsh_alias.sh` and `.zsh_functions.sh` files, and outputs the name and a brief description of each alias or function, making it easier to remember and manage these shortcuts.
 
 ```
+┌──(kalikali)-[~]           
+└─$ customs                                               
 ALIASES:                                                                     
 -----------------------------                                                                                                                              
 [+] bat - Alias to use batcat instead of cat                                                                                                               
@@ -61,8 +63,6 @@ ALIASES:
 [+] vlvpn - Start Vulnlab VPN
 [+] vmachines - Navigate to Vulnlab machines directory
 [+] vuln - Navigate to Vulnlab directory
-[+] xc - Alias for copying to the clipboard
-
 [+] xc - Alias for copying to the clipboard
 
 FUNCTIONS:
