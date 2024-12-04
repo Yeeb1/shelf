@@ -457,6 +457,72 @@ This script is particularly useful when you need to extract and analyze JavaScri
 
 
 
+## [weakpass.py](./weakpass.py) - Weakpass API Client for Password Hash Queries and Wordlist Generation
+
+`weakpass.py` is a command-line tool that interacts with the [Weakpass](https://weakpass.com/) API, allowing you to search for password hashes, generate custom wordlists using Hashcat rules, and retrieve wordlists directly from the Weakpass repository.
+
+
+#### Commands:
+
+- `search`: Search for a supplied hash or hashes from a file in the database.
+- `generate`: Generate a wordlist for a specific string.
+- `range`: Retrieve hash-password pairs based on a specific prefix.
+- `list-wordlists`: List all available wordlists and rules.
+- `get-wordlist`: Retrieve the content of a specific wordlist or rule.
+
+
+##### **Search Command**
+
+Search for a hash or multiple hashes.
+
+```bash
+python3 weakpass.py search <hash_or_file> [--highlight] [--output FILE] [--format FORMAT]
+```
+
+- `<hash_or_file>`: The hash to search for or a file containing hashes.
+- `--highlight`: (Optional) Highlight output when a hash is recovered.
+- `--output FILE`: (Optional) Save output to a file.
+- `--format FORMAT`: (Optional) Output format (`json` or `txt`). Default is `txt`.
+
+
+##### **Generate Command**
+
+Generate a wordlist for a specific string using Hashcat rules.
+
+```bash
+python3 weakpass.py generate <string> [--set RULESET] [--type TYPE] [-o OUTPUT]
+```
+
+- `<string>`: Base string to generate the wordlist from.
+- `--set RULESET`: (Optional) Hashcat ruleset to use (default: `online.rule`).
+- `--type TYPE`: (Optional) Return data type (`json` or `txt`). Default is `txt`.
+- `-o OUTPUT`: (Optional) Filename to save the generated wordlist. If not specified, defaults to `<string>_wordlist.txt`.
+
+
+
+##### **List Wordlists**
+
+List all available wordlists from Weakpass.
+
+```bash
+python3 weakpass.py list-wordlists [--output FILE] [--format FORMAT]
+```
+
+- `--output FILE`: (Optional) Save output to a file.
+- `--format FORMAT`: (Optional) Output format (`json` or `txt`). Default is `txt`.
+
+
+##### **Get Wordlist**
+
+Retrieve a specific wordlist or rule from Weakpass.
+
+```bash
+python3 weakpass.py get-wordlist <wordlist> [-o OUTPUT]
+```
+
+- `<wordlist>`: Name of the wordlist to retrieve (e.g., `rockyou.txt`).
+- `-o OUTPUT`: (Optional) Filename to save the wordlist. Defaults to the wordlist name.
+
 
 
 
