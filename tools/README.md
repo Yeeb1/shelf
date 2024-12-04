@@ -45,6 +45,22 @@ This script uses a refresh token and client ID to request new access tokens with
 ```powershell
 .\TokenToWonderland.ps1 -domain "contoso.com" -refreshToken "your_refresh_token" -clientId "27922004-5251-4030-b22d-91ecd9a37ea4" -PassTokens
 ```
+## [TansferSnatch.ps1](TransferSnatch.ps1) - SMB Share Monitoring
+
+A lot of companies still use open SMB shares for file transfers, which inadvertently expose sensitive information. Some of these transfer shares are never cleaned up, leaving sensitive files indefinitely accessible, while others are cleared every night, every couple of hours, or even within seconds after files are transferred.
+
+This script is designed to monitor such SMB shares for new or modified files in real time. It helps red team operators detect, download, and analyze files—even if they exist on the share for only a brief moment. 
+
+### Usage
+```powershell
+.\TransferSnatch.ps1 -SMBSharePath <UNC_Path> -DownloadDirectory <Local_Directory> [-IntervalInSeconds <Seconds>] [-MaxFileSizeMB <Size>] [-MaxDepth <Depth>] [-FileTypes <Patterns>] [-SensitiveStrings <Strings>] [-ProcessExistingFiles] [-ExcludeExtensions <Extensions>] [-LogFile <File_Path>]
+```
+
+### Notes
+- Ensure the script has appropriate permissions to access the SMB share and download files.
+- For extended engagements, consider increasing the interval (`-IntervalInSeconds`) to avoid detection.
+- Sensitive string searches are basic and do not account for advanced patterns or encodings; consider extending the functionality for specific engagements. 
+
 
 ## [adminer.sh](./adminer.sh) - Secure Neo4j Password Wrapper for AD-miner
 
