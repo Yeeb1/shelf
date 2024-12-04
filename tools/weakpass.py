@@ -35,6 +35,8 @@ def search_hash(hash_value, output, output_format, highlight):
                     output_data = data
                 else:
                     output_data = f"[!] Type: {data['type']}, Hash: {data['hash']}, Password: {data['pass']}"
+                    if highlight:
+                        output_data = f"\033[92m{output_data}\033[0m"
                 handle_output(output_data, output, output_format)
             else:
                 print("No data found for the given hash.")
@@ -76,6 +78,8 @@ def search_hashes_from_file(file_path, output, output_format, highlight):
                         results.append(data)
                     else:
                         output_data = f"[!] Type: {data['type']}, Hash: {data['hash']}, Password: {data['pass']}"
+                    if highlight:
+                        output_data = f"\033[92m{output_data}\033[0m"
                         print(output_data)
                 else:
                     print(f"No data found for the hash: {hash_value}")
