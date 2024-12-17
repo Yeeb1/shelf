@@ -306,6 +306,16 @@ FB
 python3 ntlm-hasher.py <password>
 ```
 
+## [pocoff.py](./pocoff.py) - Search for POCs with Google Custom Search
+
+`pocoff.py` is a short scritp for quickly finding PoCs using a Google CSE on GitHub. 
+
+#### Usage:
+```bash
+python3 pocoff.py <search_term> [--results <num_results>]
+```
+
+
 ## [ratelimit_check.py](./ratelimit_check.py) - Check for Rate Limiting on API Endpoints
 
 `ratelimit_check.py` is a tool used to test for rate limiting on URL endpoints, specifically targeting API endpoints. The script sends a specified number of POST requests to a given URL and tracks the responses, allowing you to detect any signs of rate limiting or throttling by monitoring the returned HTTP status codes.
