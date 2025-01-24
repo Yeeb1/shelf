@@ -115,6 +115,42 @@ This script automates the process of fetching details about AWS resources using 
 aws_enum.sh <aws-profile>
 ```
 
+
+## [bh_analyze_passwords.py](./bh_analyze_passwords.py) - Analyse Password Ages based on BloodHound dumps
+
+A command-line tool for analyzing Active Directory password data from BloodHound-like JSON output. It provides three subcommands:
+
+1. **`analyse`**  
+   - Performs standard password checks, identifying:  
+     - “Never Changed” passwords (pwd last set == account creation)  
+     - “Old” and “Very Old” passwords based on threshold days  
+   - Optionally ignore disabled accounts, sort by various criteria, and hide accounts with normal (non-old) passwords.
+
+2. **`findsimilar`**  
+   - Finds accounts whose **creation time** or **password last set time** falls within a similar timeframe (± X days) of the specified list of accounts.  
+   - Useful for spotting patterns or correlation between password changes.
+
+3. **`dump`**  
+   - Exports to CSV all accounts **whose password changed** either:  
+     - Within the last X days, **or**  
+     - Between two specified dates (e.g., all changed in October 2023).  
+   - Great for quick reporting or audits.
+
+## Example Usage
+
+```bash
+# 1) Basic Analysis
+python analyze_passwords.py analyse --json data.json --hide-normal
+
+# 2) Find Similar
+python analyze_passwords.py findsimilar --json data.json --accounts targets.txt --similar-timeframe 7
+
+# 3) Dump a CSV of accounts changed in last 30 days
+python analyze_passwords.py dump --json data.json --changed-since-days 30 --csv-output results.csv
+```
+
+
+
 ## [clockskewer.sh](./clockskewer.sh) - Synchronize System Time with a Remote Host
 
 `clockskewer.sh` is a Bash script designed to synchronize your system's time with that of a remote host or reset it to your system's timezone. It supports synchronization via NTP, `rdate`, or HTTP(S), and manages NTP synchronization services to prevent conflicts.
