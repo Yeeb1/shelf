@@ -6,9 +6,7 @@ import os
 import sys
 from datetime import datetime, timezone
 
-# --------------------------------------------------------------------------------
-# COLOR HELPER (optional, you can remove if you prefer plain text)
-# --------------------------------------------------------------------------------
+
 class Colors:
     RED = "\033[91m"
     YELLOW = "\033[93m"
@@ -21,9 +19,6 @@ def colorize(text, color):
 def bold(text):
     return f"{Colors.BOLD}{text}{Colors.RESET}"
 
-# --------------------------------------------------------------------------------
-# CORE LOGIC
-# --------------------------------------------------------------------------------
 
 def load_json_file(json_path):
     """Load and return JSON data from a file, or exit with error if not found."""
