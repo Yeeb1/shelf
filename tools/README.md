@@ -25,6 +25,18 @@ python3 CertipyPermParse.py <file_path> [--csv <output_file>] [--exclude <princi
 ```bash
 python3 CertipyPermParse.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
 ```
+
+## [CrawlMeARiver.py](./CrawlMeARiver.py) - Cross-Domain Web Crawler & Content Harvester
+
+`CrawlMeARiver.py` is a Flask-based server that serves a JavaScript payload (`debug.js`) for on-the-fly web crawling. Once injected into a target webpage, the script collects every linked resource it finds (HTML, images, scripts, etc.), base64-encodes the content, and POSTs it back to your Flask server. It follows new links discovered in fetched HTML, creating a recursive crawling effect. Additionally, it can capture cookies readable by JavaScript and store them on the server. All retrieved data is saved under a folder named after the **source IP**.
+
+### Features:
+-  Dynamically collects links (`href`, `src`, etc.) from the DOM and recursively fetches new links found in HTML responses.  
+-  Utilizes both `fetch()` and XHR to handle CORS or mixed-content issues gracefully.  
+-  Sends any non-HttpOnly cookies via `document.cookie` to the Flask server.  
+-  Saves each resource (and cookies) in a separate directory named after the client's IP address.  
+-  Sets `Access-Control-Allow-Origin: *` so the script can be loaded cross-domain.
+
 ## [TokenToWonderland.ps1](./TokenToWonderland.ps1) - Generate Access Tokens for Microsoft Graph API by specifiying ClientIDs
 
 This script uses a refresh token and client ID to request new access tokens with new scopes based on the clientID for the Microsoft Graph API.
