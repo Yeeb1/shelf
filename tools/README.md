@@ -26,6 +26,34 @@ python3 CertipyPermParse.py <file_path> [--csv <output_file>] [--exclude <princi
 python3 CertipyPermParse.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
 ```
 
+
+Here's an entry styled to match your tools documentation for `CobaltStrikeOPLogs.py`:
+
+---
+
+## [CobaltStrikeOPLogs.py](./CobaltStrikeOPLogs.py) - Parse Cobalt Strike Beacon Logs for Operator Inputs
+
+`CobaltStrikeOPLogs.py` is a parser for Cobalt Strike beacon log directories. It extracts both metadata and operator `[input]` commands from `beacon_*.log` files and exports them into a structured CSV format. This script is ideal for red teamers and blue teamers alike who need to audit, track, or analyze command usage across multiple beacon sessions.
+
+### Features:
+
+* Recursively walks a base directory to locate and process `beacon_*.log` files.
+* Parses `[input]` log lines and extracts command timestamps, operators, and the full command issued.
+* Extracts `[metadata]` lines and injects synthetic "initial check-in" entries for timeline correlation.
+* Extracts and attaches metadata such as user, computer, process, PID, architecture, and version info to each log entry.
+* Supports shifting all timestamps by ±N hours to align with a desired timezone.
+* Outputs parsed entries into a clean, ready-to-analyze CSV file.
+
+### Usage:
+
+```bash
+python3 CobaltStrikeOPLogs.py <log_dir> [-o <output_file>] [--shift-time <hours>]
+```
+
+* `<log_dir>`: Path to the root directory containing Cobalt Strike logs (e.g., extracted CRTE logs).
+* `-o`, `--output`: (Optional) Output CSV file path (default: `operator_log_raw.csv`).
+* `--shift-time`: (Optional) Integer value to shift all timestamps by N hours, useful for correcting timezones.
+
 ## [CrawlMeARiver.py](./CrawlMeARiver.py) - Cross-Domain Web Crawler & Content Harvester
 
 `CrawlMeARiver.py` is a Flask-based server that serves a JavaScript payload (`debug.js`) for on-the-fly web crawling. Once injected into a target webpage, the script collects every linked resource it finds (HTML, images, scripts, etc.), base64-encodes the content, and POSTs it back to your Flask server. It follows new links discovered in fetched HTML, creating a recursive crawling effect. Additionally, it can capture cookies readable by JavaScript and store them on the server. All retrieved data is saved under a folder named after the **source IP**.
