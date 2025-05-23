@@ -25,12 +25,6 @@ python3 CertipyPermParse.py <file_path> [--csv <output_file>] [--exclude <princi
 ```bash
 python3 CertipyPermParse.py certipy_output.json --csv results.csv --exclude "Test User" --active-only
 ```
-
-
-Here's an entry styled to match your tools documentation for `CobaltStrikeOPLogs.py`:
-
----
-
 ## [CobaltStrikeOPLogs.py](./CobaltStrikeOPLogs.py) - Parse Cobalt Strike Beacon Logs for Operator Inputs
 
 `CobaltStrikeOPLogs.py` is a parser for Cobalt Strike beacon log directories. It extracts both metadata and operator `[input]` commands from `beacon_*.log` files and exports them into a structured CSV format. This script is ideal for red teamers and blue teamers alike who need to audit, track, or analyze command usage across multiple beacon sessions.
