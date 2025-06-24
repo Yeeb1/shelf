@@ -376,6 +376,20 @@ FB
 python3 ntlm-hasher.py <password>
 ```
 
+## [pem2hc.py](./pem2hc.py) – Convert PKCS#8 Encrypted PEM Keys into Hashcat-Compatible Hashes
+
+`pem2hc.py` extracts the inline `$PEM$…` hash blob from an encrypted PKCS#8 key (PEM or DER), automatically detects whether PBKDF2-HMAC-SHA1 or PBKDF2-HMAC-SHA256 is in use, and prints the appropriate Hashcat mode (24410 or 24420) alongside the hash string.
+
+> **Note:** This tool was developed to address the PRF-detection bug tracked in John the Ripper issue [#4834](https://github.com/openwall/john/issues/4834), where `pem2john` and the JtR PEM formats assumed SHA-1 by default and ignored explicit SHA-256 parameters.
+
+#### Features
+
+* Parses both PEM (“`-----BEGIN ENCRYPTED PRIVATE KEY-----`”) and raw DER inputs
+* Detects PRF algorithm (SHA-1 vs SHA-256) in the PBKDF2 parameters
+* Maps 3DES/AES ciphers to the correct `$PEM$<ver>$<cid>` format
+* Prints the recommended Hashcat mode (`-m 24410` or `-m 24420`) above each hash
+
+
 ## [pocoff.py](./pocoff.py) - Search for POCs with Google Custom Search
 
 `pocoff.py` is a short scritp for quickly finding PoCs using a Google CSE on GitHub. 
