@@ -376,6 +376,32 @@ FB
 python3 ntlm-hasher.py <password>
 ```
 
+## [obsidian2notion.py](./obsidian2notion.py) – Sync Obsidian Vault → Notion (Folder → Database)
+
+`obsidian2notion.py` recursively scans your Obsidian vault, converts Markdown into Notion blocks, and mirrors your folder structure into **Notion databases** (one database per subfolder; top-level files go into a configurable root database). It skips pages that already exist (by **Name** within each database), chunks child block uploads to respect Notion limits, and optionally rewrites local attachments to S3 links. If S3 is not configured, **local images are skipped** (external image URLs are still embedded).
+
+### Features
+
+* **Folder → Database mapping**: each subfolder becomes a dedicated Notion database; top-level files go to a root DB.
+* **Markdown → Notion**: headings (`#`..`###`), paragraphs, bullet/numbered lists, fenced code blocks (language preserved), horizontal rules, links; external image URLs supported.
+* **Duplicate avoidance**: skips creating a page if a page with the same **Name** already exists in that database.
+* **Batching**: splits child block uploads into ≤100 blocks per request (Notion API limit).
+
+### Install
+
+```bash
+pip install -U notion-client python-dotenv
+```
+
+### Environment (.env)
+
+```ini
+NOTION_TOKEN=secret_...                          # Internal integration token
+NOTION_PARENT_PAGE_ID=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  # Share this page with the integration
+MARKDOWN_BASE_DIR=/absolute/path/to/ObsidianVault
+CONCURRENCY_LIMIT=4                              # Parallel workers
+```
+
 ## [pem2hc.py](./pem2hc.py) – Convert PKCS#8 Encrypted PEM Keys into Hashcat-Compatible Hashes
 
 `pem2hc.py` extracts the inline `$PEM$…` hash blob from an encrypted PKCS#8 key (PEM or DER), automatically detects whether PBKDF2-HMAC-SHA1 or PBKDF2-HMAC-SHA256 is in use, and prints the appropriate Hashcat mode (24410 or 24420) alongside the hash string.
