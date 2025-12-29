@@ -123,4 +123,5 @@ The script is easy to curl into bash for fast execution and clean persistence.
 curl -sSL <script_url> | bash
 ```
 
+## [vibeshell.php](./vibeshell.php) - I keep loosing them, php webshell, for offline usage
 
