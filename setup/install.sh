@@ -156,6 +156,11 @@ install_shell_scripts() {
 create_shelf_cmd() {
     log_info "Creating shelf command..."
 
+    if ! mkdir -p "$BIN_DIR"; then
+        log_err "Failed to create $BIN_DIR"
+        return 1
+    fi
+
     cat > "${BIN_DIR}/shelf" << 'EOF'
 #!/bin/bash
 CONFIG_DIR="${HOME}/.config/shelf"
@@ -184,8 +189,13 @@ case "${1:-help}" in
 esac
 EOF
 
+    if [ ! -f "${BIN_DIR}/shelf" ]; then
+        log_err "Failed to create shelf command"
+        return 1
+    fi
+
     chmod +x "${BIN_DIR}/shelf"
-    log_ok "Created shelf command"
+    log_ok "Created shelf command at ${BIN_DIR}/shelf"
 }
 
 # Main
