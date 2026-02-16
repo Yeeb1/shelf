@@ -123,33 +123,53 @@ install_python_tools() {
     log_ok "Python environment ready"
 }
 
-# Install shell scripts
-install_shell_scripts() {
-    log_info "Installing shell scripts..."
-
-    local scripts=(
-        "tools/url-enum.sh"
-        "tools/url-parse-js.sh"
-        "tools/adminer.sh"
-        "tools/arpa.sh"
-        "tools/aws_enum.sh"
-        "tools/clockskewer.sh"
-        "tools/ssh-pam-backdoor.sh"
-        "ctf/ssh-backdoor.sh"
-        "ctf/flagssh.sh"
-        "ctf/grepper.sh"
-    )
+# Install Python tools and shell scripts
+install_tools() {
+    log_info "Installing tools from GitHub..."
 
     local count=0
+
+    # Download all Python tools from tools/, exploits/, and ctf/
+    local tools_dirs=("tools" "exploits" "ctf")
+    for dir in "${tools_dirs[@]}"; do
+        log_info "Fetching from $dir/..."
+        # Try to download common Python files (this is a basic approach)
+        local py_files=(
+            "CertipyPermParse.py" "CobaltStrikeOPLogs.py" "CrawlMeARiver.py"
+            "dns-dump.py" "dns-query.py" "hosts.py" "image_converter.py"
+            "ipconv.py" "namegen.py" "ntlm-hasher.py" "obsidian2notion.py"
+            "pem2hc.py" "pocoff.py" "ratelimit_check.py" "resh.py" "sammy.py"
+            "subb.py" "weakpass.py" "bh_analyze_passwords.py"
+            "ofbiz2hashcat.py" "pwsmdecrypt.py" "nodered_decrypt.py"
+            "SolarPuttyDecrypt.py" "openWB_RCE_2bdd255.py" "rdp_plus_decrypt.py"
+            "nginx-403.py" "prefixsuffix.py" "quickpass.py" "htb-usercontent.py"
+        )
+
+        for py_file in "${py_files[@]}"; do
+            if download "${dir}/${py_file}" "${INSTALL_BASE}/${dir}/${py_file}" 2>/dev/null; then
+                chmod +x "${INSTALL_BASE}/${dir}/${py_file}"
+                ((count++))
+            fi
+        done
+    done
+
+    # Download shell scripts
+    local scripts=(
+        "tools/url-enum.sh" "tools/url-parse-js.sh" "tools/adminer.sh"
+        "tools/arpa.sh" "tools/aws_enum.sh" "tools/clockskewer.sh"
+        "tools/ssh-pam-backdoor.sh" "ctf/ssh-backdoor.sh"
+        "ctf/flagssh.sh" "ctf/grepper.sh"
+    )
+
     for script in "${scripts[@]}"; do
         if download "$script" "${INSTALL_BASE}/${script}"; then
             chmod +x "${INSTALL_BASE}/${script}"
-            ln -sf "${INSTALL_BASE}/${script}" "${BIN_DIR}/$(basename "$script")"
+            ln -sf "${INSTALL_BASE}/${script}" "${BIN_DIR}/$(basename "$script")" 2>/dev/null || true
             ((count++))
         fi
     done
 
-    log_ok "Installed $count shell scripts"
+    log_ok "Downloaded and organized $count tools"
 }
 
 # Create shelf management command
@@ -164,22 +184,37 @@ create_shelf_cmd() {
     cat > "${BIN_DIR}/shelf" << 'EOF'
 #!/bin/bash
 CONFIG_DIR="${HOME}/.config/shelf"
+SHELF_HOME="${HOME}/.local/shelf"
 case "${1:-help}" in
     list)
-        echo "[*] Installed tools:"
-        ls -la ~/.local/bin | grep -E "\.(py|sh)$"
+        echo "[*] Shelf Tools:"
+        echo ""
+        echo "Python Tools (tools/):"
+        find "$SHELF_HOME/tools" -maxdepth 1 -name "*.py" 2>/dev/null | xargs -I {} basename {} | sort
+        echo ""
+        echo "Exploits (exploits/):"
+        find "$SHELF_HOME/exploits" -maxdepth 1 -name "*.py" 2>/dev/null | xargs -I {} basename {} | sort
+        echo ""
+        echo "Shell Scripts:"
+        find "$SHELF_HOME" -maxdepth 2 -name "*.sh" 2>/dev/null | xargs -I {} basename {} | sort
+        echo ""
+        echo "CTF Tools (ctf/):"
+        find "$SHELF_HOME/ctf" -maxdepth 1 -name "*.py" 2>/dev/null | xargs -I {} basename {} | sort
         ;;
     aliases)
+        echo "[*] Available aliases:"
         grep '^alias ' "$CONFIG_DIR/.zsh_alias.sh" 2>/dev/null | sed 's/alias //'
         ;;
     functions)
+        echo "[*] Available functions:"
         grep '^function ' "$CONFIG_DIR/.zsh_functions.sh" 2>/dev/null | awk '{print $2}' | sed 's/()//'
         ;;
     update)
         bash <(curl -s https://raw.githubusercontent.com/Yeeb1/shelf/main/setup/install.sh)
         ;;
     backup)
-        ls -la ~/.local/shelf/backups/
+        echo "[*] Backups:"
+        ls -lh "$SHELF_HOME/backups/" 2>/dev/null || echo "No backups found"
         ;;
     *)
         echo "The Shelf - Tool Management"
@@ -210,7 +245,7 @@ main() {
     setup_dirs
     setup_config
     install_python_tools
-    install_shell_scripts
+    install_tools
     create_shelf_cmd
 
     echo ""
