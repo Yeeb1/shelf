@@ -123,53 +123,59 @@ install_python_tools() {
     log_ok "Python environment ready"
 }
 
+# Dynamically fetch files from GitHub API
+fetch_github_files() {
+    local dir=$1
+    local local_base=$2
+
+    # Use GitHub API to list files in a directory
+    local api_url="https://api.github.com/repos/Yeeb1/shelf/contents/${dir}?ref=main"
+
+    # Fetch file list from GitHub API using jq if available, otherwise simple grep
+    local files
+    if command_exists jq; then
+        files=$(curl -s "$api_url" | jq -r '.[] | select(.name | test("\\.py$|\\.sh$")) | .name' 2>/dev/null)
+    else
+        # Fallback: extract filenames manually if jq not available
+        files=$(curl -s "$api_url" | grep '"name"' | grep -oE '[a-zA-Z0-9_.-]+\.(py|sh)' | sort -u)
+    fi
+
+    local count=0
+    while IFS= read -r file; do
+        [ -z "$file" ] && continue
+
+        if download "${dir}/${file}" "${local_base}/${file}"; then
+            chmod +x "${local_base}/${file}"
+            # Create symlink in bin for scripts
+            if [[ "$file" == *.sh ]]; then
+                ln -sf "${local_base}/${file}" "${BIN_DIR}/${file}" 2>/dev/null || true
+            fi
+            ((count++))
+        fi
+    done <<< "$files"
+
+    echo $count
+}
+
 # Install Python tools and shell scripts
 install_tools() {
     log_info "Installing tools from GitHub..."
 
-    local count=0
+    local total=0
 
-    # Download all Python tools from tools/, exploits/, and ctf/
-    local tools_dirs=("tools" "exploits" "ctf")
-    for dir in "${tools_dirs[@]}"; do
+    # Download from tools/, exploits/, and ctf/ directories
+    for dir in tools exploits ctf; do
         log_info "Fetching from $dir/..."
-        # Try to download common Python files (this is a basic approach)
-        local py_files=(
-            "CertipyPermParse.py" "CobaltStrikeOPLogs.py" "CrawlMeARiver.py"
-            "dns-dump.py" "dns-query.py" "hosts.py" "image_converter.py"
-            "ipconv.py" "namegen.py" "ntlm-hasher.py" "obsidian2notion.py"
-            "pem2hc.py" "pocoff.py" "ratelimit_check.py" "resh.py" "sammy.py"
-            "subb.py" "weakpass.py" "bh_analyze_passwords.py"
-            "ofbiz2hashcat.py" "pwsmdecrypt.py" "nodered_decrypt.py"
-            "SolarPuttyDecrypt.py" "openWB_RCE_2bdd255.py" "rdp_plus_decrypt.py"
-            "nginx-403.py" "prefixsuffix.py" "quickpass.py" "htb-usercontent.py"
-        )
+        mkdir -p "${INSTALL_BASE}/${dir}"
 
-        for py_file in "${py_files[@]}"; do
-            if download "${dir}/${py_file}" "${INSTALL_BASE}/${dir}/${py_file}" 2>/dev/null; then
-                chmod +x "${INSTALL_BASE}/${dir}/${py_file}"
-                ((count++))
-            fi
-        done
-    done
-
-    # Download shell scripts
-    local scripts=(
-        "tools/url-enum.sh" "tools/url-parse-js.sh" "tools/adminer.sh"
-        "tools/arpa.sh" "tools/aws_enum.sh" "tools/clockskewer.sh"
-        "tools/ssh-pam-backdoor.sh" "ctf/ssh-backdoor.sh"
-        "ctf/flagssh.sh" "ctf/grepper.sh"
-    )
-
-    for script in "${scripts[@]}"; do
-        if download "$script" "${INSTALL_BASE}/${script}"; then
-            chmod +x "${INSTALL_BASE}/${script}"
-            ln -sf "${INSTALL_BASE}/${script}" "${BIN_DIR}/$(basename "$script")" 2>/dev/null || true
-            ((count++))
+        local count=$(fetch_github_files "$dir" "${INSTALL_BASE}/${dir}")
+        if [ "$count" -gt 0 ]; then
+            log_ok "Downloaded $count files from $dir/"
+            ((total += count))
         fi
     done
 
-    log_ok "Downloaded and organized $count tools"
+    log_ok "Downloaded and organized $total tools total"
 }
 
 # Create shelf management command
