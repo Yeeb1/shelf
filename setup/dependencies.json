@@ -1,0 +1,283 @@
+{
+  "python_tools": {
+    "tools": [
+      {
+        "name": "CertipyPermParse.py",
+        "path": "tools/CertipyPermParse.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "CobaltStrikeOPLogs.py",
+        "path": "tools/CobaltStrikeOPLogs.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "CrawlMeARiver.py",
+        "path": "tools/CrawlMeARiver.py",
+        "type": "script",
+        "deps": ["flask"]
+      },
+      {
+        "name": "dns-dump.py",
+        "path": "tools/dns-dump.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "dns-query.py",
+        "path": "tools/dns-query.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "hosts.py",
+        "path": "tools/hosts.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "image_converter.py",
+        "path": "tools/image_converter.py",
+        "type": "script",
+        "deps": ["pillow"]
+      },
+      {
+        "name": "ipconv.py",
+        "path": "tools/ipconv.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "mssql_ridbrute.py",
+        "path": "tools/mssql_ridbrute.py",
+        "type": "script",
+        "deps": ["pyodbc"]
+      },
+      {
+        "name": "namegen.py",
+        "path": "tools/namegen.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "ntlm-hasher.py",
+        "path": "tools/ntlm-hasher.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "obsidian2notion.py",
+        "path": "tools/obsidian2notion.py",
+        "type": "script",
+        "deps": ["requests"]
+      },
+      {
+        "name": "pem2hc.py",
+        "path": "tools/pem2hc.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "pocoff.py",
+        "path": "tools/pocoff.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "ratelimit_check.py",
+        "path": "tools/ratelimit_check.py",
+        "type": "script",
+        "deps": ["requests"]
+      },
+      {
+        "name": "resh.py",
+        "path": "tools/resh.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "sammy.py",
+        "path": "tools/sammy.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "subb.py",
+        "path": "tools/subb.py",
+        "type": "script",
+        "deps": ["requests"]
+      },
+      {
+        "name": "weakpass.py",
+        "path": "tools/weakpass.py",
+        "type": "script",
+        "deps": ["requests"]
+      },
+      {
+        "name": "bh_analyze_passwords.py",
+        "path": "tools/bh_analyze_passwords.py",
+        "type": "script",
+        "deps": []
+      }
+    ],
+    "exploits": [
+      {
+        "name": "ofbiz2hashcat.py",
+        "path": "exploits/ofbiz2hashcat.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "pwsmdecrypt.py",
+        "path": "exploits/pwsmdecrypt.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "nodered_decrypt.py",
+        "path": "exploits/nodered_decrypt.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "SolarPuttyDecrypt.py",
+        "path": "exploits/SolarPuttyDecrypt.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "openWB_RCE_2bdd255.py",
+        "path": "exploits/openWB_RCE_2bdd255.py",
+        "type": "script",
+        "deps": ["requests"]
+      },
+      {
+        "name": "rdp_plus_decrypt.py",
+        "path": "exploits/rdp_plus_decrypt.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "nginx-403.py",
+        "path": "exploits/nginx-403.py",
+        "type": "script",
+        "deps": ["requests"]
+      }
+    ],
+    "ctf": [
+      {
+        "name": "prefixsuffix.py",
+        "path": "ctf/prefixsuffix.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "quickpass.py",
+        "path": "ctf/quickpass.py",
+        "type": "script",
+        "deps": []
+      },
+      {
+        "name": "htb-usercontent.py",
+        "path": "ctf/htb-usercontent.py",
+        "type": "script",
+        "deps": ["requests"]
+      }
+    ]
+  },
+  "shell_scripts": [
+    {
+      "name": "url-enum.sh",
+      "path": "tools/url-enum.sh",
+      "type": "bash",
+      "deps": ["curl"]
+    },
+    {
+      "name": "url-parse-js.sh",
+      "path": "tools/url-parse-js.sh",
+      "type": "bash",
+      "deps": ["jq"]
+    },
+    {
+      "name": "adminer.sh",
+      "path": "tools/adminer.sh",
+      "type": "bash",
+      "deps": []
+    },
+    {
+      "name": "arpa.sh",
+      "path": "tools/arpa.sh",
+      "type": "bash",
+      "deps": ["dig"]
+    },
+    {
+      "name": "aws_enum.sh",
+      "path": "tools/aws_enum.sh",
+      "type": "bash",
+      "deps": ["aws-cli"]
+    },
+    {
+      "name": "clockskewer.sh",
+      "path": "tools/clockskewer.sh",
+      "type": "bash",
+      "deps": []
+    },
+    {
+      "name": "ssh-pam-backdoor.sh",
+      "path": "tools/ssh-pam-backdoor.sh",
+      "type": "bash",
+      "deps": ["openssh"]
+    },
+    {
+      "name": "ssh-backdoor.sh",
+      "path": "ctf/ssh-backdoor.sh",
+      "type": "bash",
+      "deps": ["openssh"]
+    },
+    {
+      "name": "flagssh.sh",
+      "path": "ctf/flagssh.sh",
+      "type": "bash",
+      "deps": []
+    },
+    {
+      "name": "grepper.sh",
+      "path": "ctf/grepper.sh",
+      "type": "bash",
+      "deps": ["grep"]
+    }
+  ],
+  "configurations": {
+    "aliases": {
+      "file": "configs/.zsh_alias.sh",
+      "type": "zsh"
+    },
+    "functions": {
+      "file": "configs/.zsh_functions.sh",
+      "type": "zsh"
+    },
+    "tmux": {
+      "file": "configs/.tmux.conf.local",
+      "type": "tmux"
+    },
+    "zshrc": {
+      "file": "configs/.zshrc",
+      "type": "zsh"
+    }
+  },
+  "system_deps": {
+    "required": [
+      "python3",
+      "curl"
+    ],
+    "optional": [
+      "jq",
+      "dig",
+      "aws-cli",
+      "pipx",
+      "uv"
+    ]
+  }
+}
