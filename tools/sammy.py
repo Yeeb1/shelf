@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import ldb
 from samba.credentials import Credentials
 from samba.param import LoadParm
