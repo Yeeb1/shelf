@@ -87,11 +87,15 @@ setup_config() {
     # Download config files
     download "configs/.zsh_alias.sh" "${CONFIG_DIR}/.zsh_alias.sh"
     download "configs/.zsh_functions.sh" "${CONFIG_DIR}/.zsh_functions.sh"
+    download "configs/.zshrc" "${CONFIG_DIR}/.zshrc.shelf"
     log_ok "Downloaded configs"
 
     # Add sourcing to zshrc if not present
     if ! grep -q "shelf.*alias" "${HOME}/.zshrc" 2>/dev/null; then
         cat >> "${HOME}/.zshrc" << 'EOF'
+
+# Ensure ~/.local/bin is in PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 # The Shelf Configuration
 [ -f "${HOME}/.config/shelf/.zsh_alias.sh" ] && source "${HOME}/.config/shelf/.zsh_alias.sh"
