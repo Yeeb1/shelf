@@ -146,10 +146,8 @@ fetch_github_files() {
 
         if download "${dir}/${file}" "${local_base}/${file}"; then
             chmod +x "${local_base}/${file}"
-            # Create symlink in bin for scripts
-            if [[ "$file" == *.sh ]]; then
-                ln -sf "${local_base}/${file}" "${BIN_DIR}/${file}" 2>/dev/null || true
-            fi
+            # Create symlink in bin for all executable files (scripts and Python tools)
+            ln -sf "${local_base}/${file}" "${BIN_DIR}/${file}" 2>/dev/null || true
             ((count++))
         fi
     done <<< "$files"
